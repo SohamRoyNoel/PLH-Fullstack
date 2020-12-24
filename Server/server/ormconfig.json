@@ -1,0 +1,28 @@
+{
+   "type": "mssql",
+   "host": "localhost",
+   "port":1434,
+   "username": "sa",
+   "password": "I_AM_mr_React",
+   "database": "plhdashboardb_Dev_Mock",
+   "synchronize": true,
+   "logging": false,
+   "options": {
+      "encrypt": true,
+      "enableArithAbort": true
+   },
+   "entities": [
+      "src/entity/**/*.ts"
+   ],
+   "migrations": [
+      "src/migration/**/*.ts"
+   ],
+   "subscribers": [
+      "src/subscriber/**/*.ts"
+   ],
+   "cli": {
+      "entitiesDir": "src/entity",
+      "migrationsDir": "src/migration",
+      "subscribersDir": "src/subscriber"
+   }
+}

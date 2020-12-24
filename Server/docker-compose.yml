@@ -1,0 +1,10 @@
+version: "3.7"
+services: 
+  plhdashboardb:
+    container_name: plhdashboardb
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports: 
+      - "1434:1433"
+    environment: 
+      SA_PASSWORD: "I_AM_mr_React"
+      ACCEPT_EULA: "Y"
