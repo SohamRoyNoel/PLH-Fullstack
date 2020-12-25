@@ -13,6 +13,8 @@
 - View available tables: ```select name from sys.databases |_> go```
 - Create a mock DB: ```create database plhdashboardb_Dev_Mock |_> go```
 - Make a use: ```use plhdashboardb_Dev_Mock |_> go```
+- Create a migration: ```typeorm migration:create -n Security_Questions```
+- Run all migrations: ```ts-node ./node_modules/typeorm/cli.js migration:run```
 
 ## TypeORM installation process
 
@@ -31,7 +33,6 @@
 - Install DOTEnv for environment variables: ```npm i dotenv```
 - Install a cookie parser to get the cookie for Refresh token: ```npm i cookie-parser```
 - Add cookie parser type as a DEV dependency: ```npm i @types/cookie-parser --save-dev```
-- Install SqlServer Dependency: 
 
 ## Upgrading npm packages
 
