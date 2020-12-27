@@ -1,4 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import { type } from "os";
+import {Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne} from "typeorm";
+import { Security_Questions } from './Security_Questions';
 
 @Entity()
 export class User_Registration {
@@ -24,7 +26,8 @@ export class User_Registration {
     @Column()
     Reg_API_KEY: string;
 
-    @Column()
+    @OneToOne(type=> Security_Questions)
+    @JoinColumn()
     Reg_Security_Qus_ID: string;
 
     @Column()
