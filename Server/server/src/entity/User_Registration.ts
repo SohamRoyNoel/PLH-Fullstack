@@ -1,0 +1,60 @@
+import { Matches, MaxLength, MinLength } from "class-validator";
+import { Field, ID, Int, ObjectType } from "type-graphql";
+import {Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, BaseEntity, ManyToOne} from "typeorm";
+import { createMyApiKey } from "../utils/createAPIkey";
+import { Security_Questions } from './Security_Questions';
+/**
+ * This Entity will work for DB model as well as GQL Type
+ */
+@ObjectType()
+@Entity({ name: 'User_Registration' })
+export class User_Registration extends BaseEntity {
+
+    @Field(() => Int)
+    @PrimaryGeneratedColumn()
+    Reg_UserID: number;
+
+    @Field()
+    @Column()
+    Reg_F_Name: string;
+
+    @Field()
+    @Column()
+    Reg_L_Name: string;
+
+    @Field()
+    @Column()
+    Reg_UserName: string;
+
+    @Field()
+    @Column({ unique: true })
+    Reg_Email: string;
+
+    @Field()
+    @Column()
+    @MinLength(6)
+    @MaxLength(16)
+    @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {message: 'Password too weak'})
+    Reg_Password: string;
+
+    @Field()
+    @Column({ default: createMyApiKey(28)})
+    Reg_API_KEY: string;
+
+    @Field(() => Int)
+    @ManyToOne(type=> Security_Questions, sq => sq.userRegistrations)
+    @JoinColumn()
+    regSecurityQusIDSeqQusID: number;
+
+    @Field()
+    Reg_Security_Qus_Ans: string;
+
+    @Field()
+    @Column({ default: 'User' })
+    Reg_User_Type: string;
+
+    @Field(() => Int)
+    @Column({ default: 1})
+    Reg_UserID_Flag: number;
+
+}

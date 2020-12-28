@@ -13,6 +13,11 @@
 - View available tables: ```select name from sys.databases |_> go```
 - Create a mock DB: ```create database plhdashboardb_Dev_Mock |_> go```
 - Make a use: ```use plhdashboardb_Dev_Mock |_> go```
+- Create a migration: ```typeorm migration:create -n Security_Questions```
+- Run all migrations: ```ts-node ./node_modules/typeorm/cli.js migration:run```
+- Drop all migrations OR clear cache: ```ts-node ./node_modules/typeorm/cli.js schema:drop```
+
+- Seed Creation: ```sequelize seed:create --name Security_Questions```
 
 ## TypeORM installation process
 
@@ -31,7 +36,10 @@
 - Install DOTEnv for environment variables: ```npm i dotenv```
 - Install a cookie parser to get the cookie for Refresh token: ```npm i cookie-parser```
 - Add cookie parser type as a DEV dependency: ```npm i @types/cookie-parser --save-dev```
-- Install SqlServer Dependency: 
+- Install sequelize: ```npm i sequelize --save-dev```
+- seeding dependencies: ```npm i typeorm-seeding --save-dev```
+- faker: ```npm install -D @types/faker```
+- class-validator: ```npm i class-validator```
 
 ## Upgrading npm packages
 
@@ -42,3 +50,14 @@
 ## Note
 
 - 25/12/2020: typeorm "typeorm": "0.2.29" introduced an error, fixed in nect alpha build, please carry on with "typeorm": "0.2.28"
+- Process to connect mockDB from SSMS
+
+  ```
+  localhost,1434
+  SQL server authentication
+  user: sa
+  ps: I_AM_mr_React
+  ```
+
+- Migrations and SQL queries will be found on _data folder
+  

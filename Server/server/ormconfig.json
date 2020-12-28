@@ -6,7 +6,8 @@
    "password": "I_AM_mr_React",
    "database": "plhdashboardb_Dev_Mock",
    "synchronize": true,
-   "logging": false,
+   "autoSchemaSync": true,
+   "logging": true,
    "options": {
       "encrypt": true,
       "enableArithAbort": true
@@ -24,5 +25,11 @@
       "entitiesDir": "src/entity",
       "migrationsDir": "src/migration",
       "subscribersDir": "src/subscriber"
-   }
+   },
+   "seeds": [
+      "src/database/seeds/**/*{.ts,.js}"
+   ],
+  "factories": [
+     "src/database/factories/**/*{.ts,.js}"
+   ]
 }
