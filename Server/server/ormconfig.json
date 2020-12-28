@@ -7,19 +7,19 @@
    "database": "plhdashboardb_Dev_Mock",
    "synchronize": true,
    "autoSchemaSync": true,
-   "logging": true,
+   "logging": false,
    "options": {
       "encrypt": true,
       "enableArithAbort": true
    },
    "entities": [
-      "src/entity/**/*.ts"
+      "src/entity/**/*{.ts,.js}"
    ],
    "migrations": [
-      "src/migration/**/*.ts"
+      "src/migration/**/*{.ts,.js}"
    ],
    "subscribers": [
-      "src/subscriber/**/*.ts"
+      "src/subscriber/**/*{.ts,.js}"
    ],
    "cli": {
       "entitiesDir": "src/entity",
