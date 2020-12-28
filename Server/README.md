@@ -60,4 +60,7 @@
   ```
 
 - Migrations and SQL queries will be found on _data folder
+- Make sure 
+  ``` "request.credentials": "include", ```
+  is activated on your GQL Playground
   

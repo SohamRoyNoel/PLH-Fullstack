@@ -38,7 +38,7 @@ mutation{
       Reg_F_Name: "Daenerys",
       Reg_L_Name: "Targaryen",
       Reg_UserName: "Daenerys Targaryen",
-      Reg_Email: "soham.roy.developer@gmail.com",
+      Reg_Email: "noelleroy720@gmail.com",
       Reg_Password: "Pa$$w0rd",
       regSecurityQusIDSeqQusID: 1,
       Reg_Security_Qus_Ans: "yes", 

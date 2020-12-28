@@ -5,6 +5,8 @@ import "reflect-metadata";
 import {createConnection} from "typeorm";
 import { HealthResolver } from './resolvers/HealthResolver';
 import { UserRegistrationResolver } from "./resolvers/Registration/User_Registration.resolver";
+import { UserLoginResolver } from "./resolvers/Login/User_Login.resolver";
+import "dotenv/config";
 
 (async () => {
     const app = express();
@@ -13,10 +15,10 @@ import { UserRegistrationResolver } from "./resolvers/Registration/User_Registra
 
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
-            resolvers: [UserRegistrationResolver, HealthResolver],
+            resolvers: [UserRegistrationResolver, UserLoginResolver, HealthResolver],
         }),
         tracing: true,
-        context: ({ req, res }) => ({ req, res })
+        context: ({ req, res }) => ({ req, res }) // Use context to pass req & response to mutations or queries
     });
 
     apolloServer.applyMiddleware({ app, cors: false });
