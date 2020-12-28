@@ -41,19 +41,17 @@ export class User_Registration extends BaseEntity {
     @Column({ default: createMyApiKey(28)})
     Reg_API_KEY: string;
 
-    @Field(() => Int)
     @ManyToOne(type=> Security_Questions, sq => sq.userRegistrations)
     @JoinColumn()
     regSecurityQusIDSeqQusID: number;
 
-    @Field()
+    @Column({ nullable:false })
     Reg_Security_Qus_Ans: string;
 
     @Field()
     @Column({ default: 'User' })
     Reg_User_Type: string;
 
-    @Field(() => Int)
     @Column({ default: 1})
     Reg_UserID_Flag: number;
 
