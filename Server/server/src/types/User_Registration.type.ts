@@ -19,9 +19,6 @@ export class UserRegistrationType {
       @Field()
       Reg_Password: string;
 
-      @Field()
-      Reg_API_KEY: string;
-
       @Field(() => Int)
       regSecurityQusIDSeqQusID: number;
 

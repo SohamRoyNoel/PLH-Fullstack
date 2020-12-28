@@ -1,5 +1,6 @@
 import { Field, ID, Int, ObjectType } from "type-graphql";
 import {Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, BaseEntity, ManyToOne} from "typeorm";
+import { createMyApiKey } from "../utils/createAPIkey";
 import { Security_Questions } from './Security_Questions';
 /**
  * This Entity will work for DB model as well as GQL Type
@@ -33,7 +34,7 @@ export class User_Registration extends BaseEntity {
     Reg_Password: string;
 
     @Field()
-    @Column()
+    @Column({ default: createMyApiKey(28)})
     Reg_API_KEY: string;
 
     @Field(() => Int)
