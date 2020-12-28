@@ -39,6 +39,7 @@
 - Install sequelize: ```npm i sequelize --save-dev```
 - seeding dependencies: ```npm i typeorm-seeding --save-dev```
 - faker: ```npm install -D @types/faker```
+- class-validator: ```npm i class-validator```
 
 ## Upgrading npm packages
 
@@ -49,3 +50,12 @@
 ## Note
 
 - 25/12/2020: typeorm "typeorm": "0.2.29" introduced an error, fixed in nect alpha build, please carry on with "typeorm": "0.2.28"
+- Process to connect mockDB from SSMS
+
+  ```
+  localhost,1434
+  SQL server authentication
+  user: sa
+  ps: I_AM_mr_React
+  ```
+  

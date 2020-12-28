@@ -1,0 +1,59 @@
+mutation{
+  createRegistrations(
+    RegistrationMutation: {      
+      Reg_F_Name: "Theon",
+      Reg_L_Name: "grejoy",
+      Reg_UserName: "Theon Grejoy",
+      Reg_Email: "soham.roy.developer@gmail.com",
+      Reg_Password: "Pa$$w0rd",
+      Reg_API_KEY: "e15vBrGUJzSsfTdGgTk3jCwKak",
+      regSecurityQusIDSeqQusID: 1,
+      Reg_Security_Qus_Ans: "yes",
+      Reg_User_Type: "Manager",
+      Reg_UserID_Flag: 1
+    }
+  ){
+    Reg_F_Name,
+    regSecurityQusIDSeqQusID
+  }
+}
+
+mutation{
+  createRegistrations(
+    RegistrationMutation: {      
+      Reg_F_Name: "Jaime",
+      Reg_L_Name: "Lannister",
+      Reg_UserName: "Jaime Lannister",
+      Reg_Email: "roysumit.1966@gmail.com",
+      Reg_Password: "Pa$$w0rd",
+      Reg_API_KEY: "e15vBrGUJzSsfTdGgTk3jCwKak",
+      regSecurityQusIDSeqQusID: 1,
+      Reg_Security_Qus_Ans: "yes",
+      Reg_User_Type: "Admin",
+      Reg_UserID_Flag: 1
+    }
+  ){
+    Reg_F_Name,
+    regSecurityQusIDSeqQusID
+  }
+}
+
+mutation{
+  createRegistrations(
+    RegistrationMutation: {      
+      Reg_F_Name: "Daenerys",
+      Reg_L_Name: "Targaryen",
+      Reg_UserName: "Daenerys Targaryen",
+      Reg_Email: "soham.roy.developer@gmail.com",
+      Reg_Password: "Pa$$w0rd",
+      Reg_API_KEY: "e15vBrGUJzSsfTdGgTk3jCwKak",
+      regSecurityQusIDSeqQusID: 1,
+      Reg_Security_Qus_Ans: "yes",
+      Reg_User_Type: "User",
+      Reg_UserID_Flag: 1
+    }
+  ){
+    Reg_F_Name,
+    regSecurityQusIDSeqQusID
+  }
+}

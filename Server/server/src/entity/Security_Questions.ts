@@ -1,12 +1,19 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from "typeorm";
+import { Field, ObjectType, Int, ID } from 'type-graphql';
+import { User_Registration } from './User_Registration';
 
-@Entity()
+@ObjectType()
+@Entity({ name: 'Security_Questions' })
 export class Security_Questions {
 
+      @Field(() => ID)
       @PrimaryGeneratedColumn()
       SeqQus_ID: number;
 
+      @Field()
       @Column({ nullable:false })
       SeqQus_Qus: string;
 
+      @OneToMany(() => User_Registration, ur => ur.regSecurityQusIDSeqQusID)
+      userRegistrations: User_Registration[];
 }
