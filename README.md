@@ -1,1 +1,8 @@
 # Trying To be a FullStack Dev
+
+## BE Env file should look like
+
+ACCESS_JWT_SECRET=qNk2suTRGsiZTIQplTS4YLSwDm7tmyFuc55KingScerEt
+REFRESH_JWT_SECRET=qNk2suTRGsiZTIQplTS4YLSwDm7tmyFuc55KingScerEtaCCE$$T0kEn
+ACCESS_JWT_EXPIRES_IN=15m
+REFRESH_JWT_EXPIRES_IN=40m
