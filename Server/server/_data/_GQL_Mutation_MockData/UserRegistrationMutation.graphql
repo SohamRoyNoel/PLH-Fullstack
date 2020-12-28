@@ -8,8 +8,6 @@ mutation{
       Reg_Password: "Pa$$w0rd",
       regSecurityQusIDSeqQusID: 1,
       Reg_Security_Qus_Ans: "yes",
-      Reg_User_Type: "Manager",
-      Reg_UserID_Flag: 1
     }
   ){
     Reg_F_Name,
@@ -27,8 +25,6 @@ mutation{
       Reg_Password: "Pa$$w0rd",
       regSecurityQusIDSeqQusID: 1,
       Reg_Security_Qus_Ans: "yes",
-      Reg_User_Type: "Admin",
-      Reg_UserID_Flag: 1
     }
   ){
     Reg_F_Name,
@@ -45,9 +41,7 @@ mutation{
       Reg_Email: "soham.roy.developer@gmail.com",
       Reg_Password: "Pa$$w0rd",
       regSecurityQusIDSeqQusID: 1,
-      Reg_Security_Qus_Ans: "yes",
-      Reg_User_Type: "User",
-      Reg_UserID_Flag: 1
+      Reg_Security_Qus_Ans: "yes", 
     }
   ){
     Reg_F_Name,
@@ -65,8 +59,6 @@ mutation{
       Reg_Password: "Pa$$w0rd",
       regSecurityQusIDSeqQusID: 2,
       Reg_Security_Qus_Ans: "yes",
-      Reg_User_Type: "User",
-      Reg_UserID_Flag: 1
     }
   ){
     Reg_F_Name,
@@ -84,8 +76,6 @@ mutation{
       Reg_Password: "Pa$$w0rd",
       regSecurityQusIDSeqQusID: 3,
       Reg_Security_Qus_Ans: "no",
-      Reg_User_Type: "User",
-      Reg_UserID_Flag: 0
     }
   ){
     Reg_F_Name,

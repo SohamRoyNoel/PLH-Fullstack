@@ -1,3 +1,4 @@
+import { Matches, MaxLength, MinLength } from "class-validator";
 import { Field, ID, Int, ObjectType } from "type-graphql";
 import {Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, BaseEntity, ManyToOne} from "typeorm";
 import { createMyApiKey } from "../utils/createAPIkey";
@@ -26,11 +27,14 @@ export class User_Registration extends BaseEntity {
     Reg_UserName: string;
 
     @Field()
-    @Column()
+    @Column({ unique: true })
     Reg_Email: string;
 
     @Field()
     @Column()
+    @MinLength(6)
+    @MaxLength(16)
+    @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {message: 'Password too weak'})
     Reg_Password: string;
 
     @Field()
@@ -46,11 +50,11 @@ export class User_Registration extends BaseEntity {
     Reg_Security_Qus_Ans: string;
 
     @Field()
-    @Column()
+    @Column({ default: 'User' })
     Reg_User_Type: string;
 
     @Field(() => Int)
-    @Column()
+    @Column({ default: 1})
     Reg_UserID_Flag: number;
 
 }

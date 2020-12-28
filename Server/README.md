@@ -58,4 +58,6 @@
   user: sa
   ps: I_AM_mr_React
   ```
+
+- Migrations and SQL queries will be found on _data folder
   
