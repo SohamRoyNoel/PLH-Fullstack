@@ -1,6 +1,7 @@
+import { hash } from "bcryptjs";
 import { Matches, MaxLength, MinLength } from "class-validator";
 import { Field, ID, Int, ObjectType } from "type-graphql";
-import {Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, BaseEntity, ManyToOne} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, BaseEntity, ManyToOne, BeforeInsert} from "typeorm";
 import { createMyApiKey } from "../utils/createAPIkey";
 import { Security_Questions } from './Security_Questions';
 /**
@@ -30,7 +31,6 @@ export class User_Registration extends BaseEntity {
     @Column({ unique: true })
     Reg_Email: string;
 
-    @Field()
     @Column()
     @MinLength(6)
     @MaxLength(16)
@@ -56,5 +56,10 @@ export class User_Registration extends BaseEntity {
     @Field(() => Int)
     @Column({ default: 1})
     Reg_UserID_Flag: number;
+
+    @BeforeInsert()
+    private async encryptPassword(): Promise<void> {
+        this.Reg_Password = await hash(this.Reg_Password, 12);
+    }
 
 }
