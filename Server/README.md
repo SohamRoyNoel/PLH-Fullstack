@@ -40,6 +40,7 @@
 - seeding dependencies: ```npm i typeorm-seeding --save-dev```
 - faker: ```npm install -D @types/faker```
 - class-validator: ```npm i class-validator```
+- logging: ```npm i morgan```
 
 ## Upgrading npm packages
 
