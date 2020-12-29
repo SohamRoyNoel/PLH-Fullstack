@@ -11,7 +11,6 @@ mutation{
     }
   ){
     Reg_F_Name,
-    regSecurityQusIDSeqQusID
   }
 }
 
@@ -28,7 +27,6 @@ mutation{
     }
   ){
     Reg_F_Name,
-    regSecurityQusIDSeqQusID
   }
 }
 
@@ -45,7 +43,6 @@ mutation{
     }
   ){
     Reg_F_Name,
-    regSecurityQusIDSeqQusID
   }
 }
 
@@ -62,7 +59,6 @@ mutation{
     }
   ){
     Reg_F_Name,
-    regSecurityQusIDSeqQusID
   }
 }
 
@@ -72,13 +68,12 @@ mutation{
       Reg_F_Name: "Joffrey",
       Reg_L_Name: "Baratheon",
       Reg_UserName: "Joffrey Baratheon",
-      Reg_Email: "callforcodei@gmail.com",
+      Reg_Email: "sofa.king.plh@gmail.com",
       Reg_Password: "Pa$$w0rd",
       regSecurityQusIDSeqQusID: 3,
       Reg_Security_Qus_Ans: "no",
     }
   ){
     Reg_F_Name,
-    regSecurityQusIDSeqQusID
   }
 }
