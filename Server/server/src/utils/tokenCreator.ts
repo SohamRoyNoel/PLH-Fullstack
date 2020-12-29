@@ -28,7 +28,8 @@ export const CreateRefreshToken = (oneUser: User_Registration) => {
             userEmail: oneUser.Reg_Email,
             userRole: oneUser.Reg_User_Type,
             userAPIKey: oneUser.Reg_API_KEY,
-            userActiveFlag: oneUser.Reg_UserID_Flag
+            userActiveFlag: oneUser.Reg_UserID_Flag,
+            tokenVersion: oneUser.Token_Version
       },
       process.env.REFRESH_JWT_SECRET!,
       {

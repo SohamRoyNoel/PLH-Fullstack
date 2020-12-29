@@ -4,6 +4,7 @@ import { User_Registration } from '../../entity/User_Registration';
 import { UserLoginType } from "../../types/User_Login.type";
 import { IctxType } from '../../types/AppCTX/Ictx.type';
 import { CreateRefreshToken, CreateAccessToken } from '../../utils/tokenCreator';
+import { SendRefreshTokenOnRefreshedAccessToken } from "../../utils/sendRefreshTokenOnRefreshedAccessToken";
 
 @Resolver()
 export class UserLoginResolver {
@@ -24,13 +25,8 @@ export class UserLoginResolver {
             if(!isValid) { throw new Error('Incorrect Password')};
             
             //Deliver a Refresh Token
-            res.cookie(
-                  "_atr",
-                  CreateRefreshToken(oneUser),
-                  {
-                        httpOnly: true
-                  }
-            )
+            SendRefreshTokenOnRefreshedAccessToken(res, CreateRefreshToken(oneUser));
+            
             // Deliver a Access Token
             return {
                   accessToken: CreateAccessToken(oneUser)

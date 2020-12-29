@@ -55,6 +55,9 @@ export class User_Registration extends BaseEntity {
     @Column({ default: 1})
     Reg_UserID_Flag: number;
 
+    @Column({ default: 0 })
+    Token_Version: number;
+
     @BeforeInsert()
     private async encryptPassword(): Promise<void> {
         this.Reg_Password = await hash(this.Reg_Password, 12);
