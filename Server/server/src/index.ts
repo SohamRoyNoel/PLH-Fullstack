@@ -13,10 +13,11 @@ import cookieParser = require("cookie-parser");
 import { verify } from 'jsonwebtoken';
 import { User_Registration } from './entity/User_Registration';
 import { CreateAccessToken, CreateRefreshToken } from './utils/tokenCreator';
+import { SendRefreshTokenOnRefreshedAccessToken } from './utils/sendRefreshTokenOnRefreshedAccessToken';
+import { TokenVersionControl } from "./resolvers/TockenBlocker/TokenVersionControl";
 
 // Do not use in PRODUCTION: GraphQL Lifecycle logger - DEV only
 import { graphql_REQ_Query_LifeCycle_Logger_dev } from "./utils/graphql_REQ_Query_LifeCycle.Logger.dev";
-import { SendRefreshTokenOnRefreshedAccessToken } from './utils/sendRefreshTokenOnRefreshedAccessToken';
 
 (async () => {
     const app = express();
@@ -43,6 +44,9 @@ import { SendRefreshTokenOnRefreshedAccessToken } from './utils/sendRefreshToken
         const userOne = await User_Registration.findOne({ Reg_UserID: payload.uid });
         if(!userOne) { return res.send({"status": false, accessToken: ''}); }
 
+        // Token Version implementation by incrementing the token version at TokenVersionControl @Mutation
+        if(userOne.Token_Version !== payload.tokenVersion) { return res.send({"status": false, accessToken: ''}); }
+
         // When refresh the Access Token we will refresh the Refresh token
         SendRefreshTokenOnRefreshedAccessToken(res, CreateRefreshToken(userOne)); 
 
@@ -58,7 +62,8 @@ import { SendRefreshTokenOnRefreshedAccessToken } from './utils/sendRefreshToken
                 UserRegistrationResolver,
                 UserLoginResolver, 
                 HealthResolver, 
-                ProtectedResolverHealth
+                ProtectedResolverHealth,
+                TokenVersionControl
             ],
         }),
         tracing: true,
