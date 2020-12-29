@@ -4,6 +4,7 @@ import { User_Registration } from '../entity/User_Registration';
 
 export const CreateAccessToken = (oneUser: User_Registration) => {
       return sign({ 
+            uid: oneUser.Reg_UserID,
             userFName: oneUser.Reg_F_Name,
             userLName: oneUser.Reg_L_Name,
             userName: oneUser.Reg_UserName,
