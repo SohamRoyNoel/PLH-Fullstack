@@ -15,11 +15,12 @@ import { User_Registration } from './entity/User_Registration';
 import { CreateAccessToken, CreateRefreshToken } from './utils/tokenCreator';
 import { SendRefreshTokenOnRefreshedAccessToken } from './utils/sendRefreshTokenOnRefreshedAccessToken';
 import { TokenVersionControl } from "./resolvers/TockenBlocker/TokenVersionControl";
+import { ApplicationResolver } from "./resolvers/ProtectedResolvers/Admin/Application_Master.resolver";
+import { RegisteredUserResolver } from "./resolvers/ProtectedResolvers/Admin/User_Registration.resolver";
+import { PageResolver } from "./resolvers/ProtectedResolvers/Admin/Page_Master.resolver";
 
 // Do not use in PRODUCTION: GraphQL Lifecycle logger - DEV only
 import { graphql_REQ_Query_LifeCycle_Logger_dev } from "./utils/graphql_REQ_Query_LifeCycle.Logger.dev";
-import { ApplicationResolver } from "./resolvers/ProtectedResolvers/Admin/Application_Master.resolver";
-import { RegisteredUserResolver } from "./resolvers/ProtectedResolvers/Admin/User_Registration.resolver";
 
 (async () => {
     const app = express();
@@ -67,7 +68,8 @@ import { RegisteredUserResolver } from "./resolvers/ProtectedResolvers/Admin/Use
                 ProtectedResolverHealth,
                 TokenVersionControl,
                 ApplicationResolver,
-                RegisteredUserResolver
+                RegisteredUserResolver,
+                PageResolver
             ],
         }),
         tracing: true,

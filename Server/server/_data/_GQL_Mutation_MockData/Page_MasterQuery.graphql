@@ -1,0 +1,6 @@
+query{
+  getPages{
+    Page_ID,
+    Page_Name
+  }
+}
