@@ -77,3 +77,11 @@ mutation{
     Reg_F_Name,
   }
 }
+
+# Find all users: Protected Route
+query{
+  getUsers{
+    Reg_UserID,
+    Reg_UserName
+  }
+}
