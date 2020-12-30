@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, BeforeInsert, PrimaryGeneratedColumn, JoinColumn, OneToOne } from 'typeorm';
+import { BaseEntity, Column, Entity, BeforeInsert, PrimaryGeneratedColumn, JoinColumn, OneToOne, ManyToOne } from 'typeorm';
 import { Field, ObjectType, Int } from 'type-graphql';
 import { User_Registration } from './User_Registration';
 
@@ -11,32 +11,33 @@ export class Application_Master extends BaseEntity {
       Application_ID: number;
 
       @Field()
-      @Column()
+      @Column({ unique: true })
       Application_Name: string;
 
-      @OneToOne(() => User_Registration)
+      @ManyToOne(type => User_Registration, ur => ur.ApplicationMaster)
       @JoinColumn()
-      Application_Reg_Admin_UserID: User_Registration;
+      Application_Reg_Admin_UserID: number;
 
-      @Column({ type: 'datetime2' })
+      @Column({ type: 'datetime2', default:createDate() })
       Application_CreationTime: string;
 
       @Column({ default: 1 })
-      Application_ID_Flag: number;
-
-      @BeforeInsert()
-      private encryptPassword(): void {
-            var date;
-            date = new Date();
-            date = date.getUTCFullYear()   + '-' +
-            pad(date.getUTCMonth() + 1)    + '-' +
-            pad(date.getUTCDate())         + ' ' +
-            pad(date.getUTCHours())        + ':' +
-            pad(date.getUTCMinutes())      + ':' +
-            pad(date.getUTCSeconds()); 
-
-            this.Application_CreationTime = date;                    
-      }
+      Application_ID_Flag: number;      
+      
 }
 
-var pad = function(n: any) { return ('00'+n).slice(-2) };
+function pad(n: any) { return ('00'+n).slice(-2) };
+
+function createDate(): String {
+      var date;
+      date = new Date();
+      date = date.getUTCFullYear()   + '-' +
+      pad(date.getUTCMonth() + 1)    + '-' +
+      pad(date.getUTCDate())         + ' ' +
+      pad(date.getUTCHours())        + ':' +
+      pad(date.getUTCMinutes())      + ':' +
+      pad(date.getUTCSeconds())      + '.' +
+      pad(date.getUTCMilliseconds());
+              
+      return date;
+}

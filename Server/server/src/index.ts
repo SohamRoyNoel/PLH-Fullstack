@@ -18,6 +18,7 @@ import { TokenVersionControl } from "./resolvers/TockenBlocker/TokenVersionContr
 
 // Do not use in PRODUCTION: GraphQL Lifecycle logger - DEV only
 import { graphql_REQ_Query_LifeCycle_Logger_dev } from "./utils/graphql_REQ_Query_LifeCycle.Logger.dev";
+import { ApplicationResolver } from "./resolvers/ProtectedResolvers/Admin/Application_Master.resolver";
 
 (async () => {
     const app = express();
@@ -63,7 +64,8 @@ import { graphql_REQ_Query_LifeCycle_Logger_dev } from "./utils/graphql_REQ_Quer
                 UserLoginResolver, 
                 HealthResolver, 
                 ProtectedResolverHealth,
-                TokenVersionControl
+                TokenVersionControl,
+                ApplicationResolver
             ],
         }),
         tracing: true,
