@@ -2,7 +2,9 @@ import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql
 import { User_Registration } from "../../../entity/User_Registration";
 import { IsAuthMiddleware } from '../../../middlewares/IsAuth.middleware';
 import { IctxType } from "../../../types/AppCTX/Ictx.type";
-
+/**
+ * This Mutation returns USERList For admin only
+ */
 @Resolver()
 export class RegisteredUserResolver {
 
