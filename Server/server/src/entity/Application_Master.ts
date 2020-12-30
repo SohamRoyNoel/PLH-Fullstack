@@ -14,13 +14,16 @@ export class Application_Master extends BaseEntity {
       @Column({ unique: true })
       Application_Name: string;
 
+      @Field(() => User_Registration)
       @ManyToOne(type => User_Registration, ur => ur.ApplicationMaster)
       @JoinColumn()
       Application_Reg_Admin_UserID: number;
 
+      @Field(() => String)
       @Column({ type: 'datetime2', default:createDate() })
       Application_CreationTime: string;
 
+      @Field(() => Int)
       @Column({ default: 1 })
       Application_ID_Flag: number;      
       

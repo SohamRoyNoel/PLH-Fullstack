@@ -28,18 +28,29 @@ export class ApplicationResolver {
                   }).execute().then((e) => {
                         console.log(e);
                   });  
-
-                  console.log("A : " + appOwner);
             } catch (error) {
-                  console.log(error);
                   return false;
             }
             
             return true;
       }
 
-      @Query(() => Application_Master)
-      getApplications() {
-            return Application_Master.find();
+      @Query(() => [Application_Master])
+      @UseMiddleware(IsAuthMiddleware)
+      async getApplications(
+            @Ctx() { payload }: IctxType 
+      ) {
+            let userRole = payload!.userRole;
+                        
+            if(userRole !== 'Admin'){
+                  throw new Error('Admin Rights needed to perform this action');
+            }
+
+            let appList = await getConnection().getRepository(Application_Master).createQueryBuilder("application_master")
+                        .leftJoinAndSelect("application_master.Application_Reg_Admin_UserID", "user_registration")
+                        .getMany();
+            //console.log("_---" + JSON.stringify(appList));
+            
+            return appList;
       }     
 }

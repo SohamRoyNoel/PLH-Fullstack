@@ -60,7 +60,7 @@ export class User_Registration extends BaseEntity {
     Token_Version: number;
 
     @OneToMany(() => Application_Master, am => am.Application_Reg_Admin_UserID)
-    ApplicationMaster: Application_Master[];
+    ApplicationMaster: Promise<Application_Master[]>;
 
     @BeforeInsert()
     private async encryptPassword(): Promise<void> {
