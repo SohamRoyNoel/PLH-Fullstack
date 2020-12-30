@@ -1,9 +1,10 @@
 import { hash } from "bcryptjs";
 import { Matches, MaxLength, MinLength } from "class-validator";
 import { Field, ID, Int, ObjectType } from "type-graphql";
-import {Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, BaseEntity, ManyToOne, BeforeInsert} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, JoinColumn, BaseEntity, ManyToOne, BeforeInsert, OneToMany} from "typeorm";
 import { createMyApiKey } from "../utils/createAPIkey";
 import { Security_Questions } from './Security_Questions';
+import { Application_Master } from './Application_Master';
 /**
  * This Entity will work for DB model as well as GQL Type
  */
@@ -57,6 +58,9 @@ export class User_Registration extends BaseEntity {
 
     @Column({ default: 0 })
     Token_Version: number;
+
+    @OneToMany(() => Application_Master, am => am.Application_Reg_Admin_UserID)
+    ApplicationMaster: Promise<Application_Master[]>;
 
     @BeforeInsert()
     private async encryptPassword(): Promise<void> {

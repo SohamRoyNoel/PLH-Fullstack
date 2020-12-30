@@ -8,8 +8,8 @@ export const IsAuthMiddleware: MiddlewareFn<IctxType> = ({ context }, next) => {
       
       if(!authorization) { throw new Error('User is unauthorized'); }
 
-      if(authorization.split(' ')[0] !== 'Chernobyl'){
-            throw new Error('Invalid Request');
+      if(authorization.split(' ')[0] !== 'Bearer'){
+            throw new Error('Invalid Request Initiator');
       }
       try {
             const token = authorization.split(' ')[1];
