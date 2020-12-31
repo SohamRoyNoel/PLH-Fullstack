@@ -9,7 +9,7 @@ export async function mailerServiceCore() {
   const source = fs.readFileSync(filePath, 'utf-8').toString();
   const template = handlebars.compile(source);
   const replacements = {
-    username: "Umut YEREBAKMAZ"
+    username: "COP"
   };
   const htmlToSend = template(replacements);
   
@@ -30,7 +30,20 @@ export async function mailerServiceCore() {
     to: "sofa.king.plh@gmail.com", // list of receivers
     subject: "Cognizant Performance LightHouse Notification", // Subject line
     text: "Hello world?", // plain text body
-    html: htmlToSend
+    html: htmlToSend,
+    attachments: [
+      {
+        filename: 'Manu.png',
+        path: __dirname + '/images/Manu.png',
+        cid: 'head' //same cid value as in the html img src
+      },
+      {
+        filename: 'foot.jpg',
+        path: __dirname + '/images/foot.jpg' ,
+        cid: 'foot' //same cid value as in the html img src
+      }
+    ],
+    
   });
 
   console.log("Message sent: %s", info.messageId);
