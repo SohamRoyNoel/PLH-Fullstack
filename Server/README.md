@@ -41,6 +41,8 @@
 - faker: ```npm install -D @types/faker```
 - class-validator: ```npm i class-validator```
 - logging: ```npm i morgan```
+- mailing service node mailer: ```npm i nodemailer uuid``` and types: ```npm install --save @types/nodemailer @types/uuid```
+- Templating  engine: ```npm i handlebars```
 
 ## Upgrading npm packages
 
@@ -65,3 +67,8 @@
   ``` "request.credentials": "include", ```
   is activated on your GQL Playground
   
+- Using Mailtrap to test mailing service: 
+  ```https://mailtrap.io/inboxes/1173602/messages/2012425298```
+  Logged in with google: EM: ```sofa.king.plh@gmail.com``` PS: ```SqlSERVERDocKeR```
+
+
