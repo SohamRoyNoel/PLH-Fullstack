@@ -4,6 +4,7 @@ import { IctxType } from "../../../types/AppCTX/Ictx.type";
 import { ApplicationRequestMapperType } from "../../../types/Application_Request_Mapper.type";
 import { getConnection } from 'typeorm';
 import { Application_Request_Mapper } from '../../../entity/Application_Request_Mapper';
+import { Application_Master } from "../../../entity/Application_Master";
 
 @Resolver()
 export class UserApplicationRequestMapperResolver {
@@ -29,4 +30,32 @@ export class UserApplicationRequestMapperResolver {
             }
       }
 
+      @Query(() => [Application_Master])
+      @UseMiddleware(IsAuthMiddleware)
+      async getAppListWhereUserHasNoAccess(
+            @Ctx() { payload }: IctxType
+      ){
+            let userId= payload!.uid;
+            let witStatusApp = await getConnection().createQueryBuilder()
+                              .select("application_request_mapper.Request_App_Name")
+                              .from(Application_Request_Mapper, "application_request_mapper" )
+                              .where("application_request_mapper.requestAppByRegUserIDRegUserID= :uid and application_request_mapper.Request_Status in ('Pending', 'Approved', 'Denied')", { uid: userId })
+                              .getMany();
+            
+            let ownedApp = '';
+            witStatusApp.forEach((k, i)=>{
+                  ownedApp += "'" +witStatusApp[i].Request_App_Name + "',";
+            });  
+            ownedApp  = ownedApp.substring(0, ownedApp.length - 1);
+            console.log(ownedApp);
+
+            let noAccessApps = await getConnection().createQueryBuilder()
+                              .select("application_master")
+                              .from(Application_Master, "application_master")
+                              .where(`application_master.Application_Name not in (${ownedApp})`)
+                              .getMany();
+
+            // console.log(noAccessApps);
+            return noAccessApps;  
+      }
 }
