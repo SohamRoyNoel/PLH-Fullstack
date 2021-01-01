@@ -19,7 +19,7 @@ export class Application_Request_Mapper extends BaseEntity {
       @JoinColumn()
       Request_App_By_Reg_UserID: number;
 
-      @Field(() => Int)
+      @Field(() => Int, { nullable: true })
       @Column({ nullable: true, default: null })
       Request_App_ApprovedBy_Reg_UserID: number;
 
