@@ -68,7 +68,22 @@ export class UserApplicationRequestMapperResolver {
                               .from(Application_Request_Mapper, "application_request_mapper" )
                               .where("application_request_mapper.requestAppByRegUserIDRegUserID= :uid and application_request_mapper.Request_Status in ('Pending')", { uid: userId })
                               .getMany();
-            console.log(withPendingStatusApp);
+            // console.log(withPendingStatusApp);
+            return withPendingStatusApp;
+      }
+
+      @Query(() => [Application_Request_Mapper])
+      @UseMiddleware(IsAuthMiddleware)
+      async getAppListWhereUserHasApprovedDeniedRequest(
+            @Ctx() { payload }: IctxType
+      ){
+            let userId= payload!.uid;
+            let withPendingStatusApp = await getConnection().createQueryBuilder()
+                              .select("application_request_mapper")
+                              .from(Application_Request_Mapper, "application_request_mapper" )
+                              .where("application_request_mapper.requestAppByRegUserIDRegUserID= :uid and application_request_mapper.Request_Status in ('Approved', 'Denied')", { uid: userId })
+                              .getMany();
+            // console.log(withPendingStatusApp);
             return withPendingStatusApp;
       }
 }
