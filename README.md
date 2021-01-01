@@ -1,5 +1,8 @@
 # Trying To be a FullStack Dev
 
+## To run BE: install node in server folder and use ```npm run dev```
+## To run FE: install node in client filder and use ```npm run dev:client```
+
 ## BE Env file should look like
 
 ACCESS_JWT_SECRET=qNk2suTRGsiZTIQplTS4YLSwDm7tmyFuc55KingScerEt
