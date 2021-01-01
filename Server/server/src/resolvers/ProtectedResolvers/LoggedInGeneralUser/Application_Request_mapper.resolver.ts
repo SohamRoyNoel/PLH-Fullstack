@@ -47,15 +47,13 @@ export class UserApplicationRequestMapperResolver {
                   ownedApp += "'" +witStatusApp[i].Request_App_Name + "',";
             });  
             ownedApp  = ownedApp.substring(0, ownedApp.length - 1);
-            console.log(ownedApp);
 
             let noAccessApps = await getConnection().createQueryBuilder()
                               .select("application_master")
                               .from(Application_Master, "application_master")
-                              .where(`application_master.Application_Name not in (${ownedApp})`)
+                              .where(`application_master.Application_Name not in (${ownedApp.length > 0 ? ownedApp : "''"})`)
                               .getMany();
 
-            // console.log(noAccessApps);
             return noAccessApps;  
       }
 }
