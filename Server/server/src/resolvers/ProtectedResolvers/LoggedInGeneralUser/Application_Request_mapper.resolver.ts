@@ -9,6 +9,11 @@ import { Application_Master } from "../../../entity/Application_Master";
 @Resolver()
 export class UserApplicationRequestMapperResolver {
 
+      /**
+       * Request Creator
+       * @param requestAccepterMutation 
+       * @param param1 
+       */
       @Mutation(() => String)
       @UseMiddleware(IsAuthMiddleware)
       async createRequestAccepter(
@@ -30,6 +35,10 @@ export class UserApplicationRequestMapperResolver {
             }
       }
 
+      /**
+       * Returns app list where user can ask for access
+       * @param param0 
+       */
       @Query(() => [Application_Master])
       @UseMiddleware(IsAuthMiddleware)
       async getAppListWhereUserHasNoAccess(
@@ -57,6 +66,10 @@ export class UserApplicationRequestMapperResolver {
             return noAccessApps;  
       }
 
+      /**
+       * Returns app list where user can see App requests that is in pending status
+       * @param param0 
+       */
       @Query(() => [Application_Request_Mapper])
       @UseMiddleware(IsAuthMiddleware)
       async getAppListWhereUserHasPendingRequest(
@@ -72,6 +85,10 @@ export class UserApplicationRequestMapperResolver {
             return withPendingStatusApp;
       }
 
+      /**
+       * Returns app list where user can see App requests that are declined
+       * @param param0 
+       */
       @Query(() => [Application_Request_Mapper])
       @UseMiddleware(IsAuthMiddleware)
       async getAppListWhereUserHasApprovedDeniedRequest(
