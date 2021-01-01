@@ -35,7 +35,13 @@ export class UserApplicationRequestMapperResolver {
                                     }).execute().then((e)=> {
                                           console.log(e);
                                     });
-                  mailerServiceCore(payload?.userName!, `Your request for Application- ${requestAccepterMutation.Application_Name} has been submited successfully. Waiting for admin's approval. `);
+
+                  // Create Link
+                  
+
+                  // Mail Sender
+                  mailerServiceCore(payload?.userName!, `Your request for Application- ${requestAccepterMutation.Application_Name} has been submited successfully. Waiting for admin's approval. `, 'U');
+                  mailerServiceCore("Admin", `Employee named- ${payload?.userName} has created a request for Appname- ${requestAccepterMutation.Application_Name}. Click the below link to approve. `, 'A', `http://plh.com/approval`);
                   return 'Your request is on pending status';
             } catch (error) {
                   return 'Your request has been rejected due to some error';

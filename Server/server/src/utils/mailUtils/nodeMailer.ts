@@ -3,7 +3,7 @@ import * as handlebars from 'handlebars';
 import * as fs from 'fs';
 import * as path from 'path';
 
-export async function mailerServiceCore(un:string | null, actionText: string | null) {
+export async function mailerServiceCore(un:string | null, actionText: string | null, flag: string, link? : string) {
 
   const filePath = path.join(__dirname, './MailBody.html');
   const source = fs.readFileSync(filePath, 'utf-8').toString();
@@ -37,11 +37,20 @@ export async function mailerServiceCore(un:string | null, actionText: string | n
     });
   };
 
-  readHTMLFile(__dirname + '/MailBody.html', async function(err: any, html: any) {
+  var targetLock: string;
+
+  if(flag === 'A'){
+    targetLock = '/AdminMailBody.html';
+  } else {
+    targetLock = '/MailBody.html';
+  }
+
+  readHTMLFile(__dirname + targetLock, async function(err: any, html: any) {
     var template = handlebars.compile(html);
     var replacements = {
          username: un,
-         actionArea: actionText
+         actionArea: actionText,
+         lnk: link
     };
     var htmlToSend = template(replacements);
     
