@@ -15,7 +15,7 @@ export class PageResolver  {
             let userRole = payload!.userRole;
                         
             if(userRole !== 'Admin'){
-                  mailerServiceCore();
+                  // mailerServiceCore();
                   throw new Error('Admin Rights needed to perform this action');
             }
             

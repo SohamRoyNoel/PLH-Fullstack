@@ -5,6 +5,7 @@ import {Entity, PrimaryGeneratedColumn, Column, JoinColumn, BaseEntity, ManyToOn
 import { createMyApiKey } from "../utils/createAPIkey";
 import { Security_Questions } from './Security_Questions';
 import { Application_Master } from './Application_Master';
+import { Application_Request_Mapper } from "./Application_Request_Mapper";
 /**
  * This Entity will work for DB model as well as GQL Type
  */
@@ -61,6 +62,9 @@ export class User_Registration extends BaseEntity {
 
     @OneToMany(() => Application_Master, am => am.Application_Reg_Admin_UserID)
     ApplicationMaster: Promise<Application_Master[]>;
+
+    @OneToMany(() => Application_Request_Mapper, arm => arm.Request_App_By_Reg_UserID)
+    ApplicationRequestMapper: Promise<Application_Request_Mapper[]>;
 
     @BeforeInsert()
     private async encryptPassword(): Promise<void> {

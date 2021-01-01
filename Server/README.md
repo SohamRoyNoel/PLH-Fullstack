@@ -69,6 +69,9 @@
   
 - Using Mailtrap to test mailing service: 
   ```https://mailtrap.io/inboxes/1173602/messages/2012425298```
-  Logged in with google: EM: ```sofa.king.plh@gmail.com``` PS: ```SqlSERVERDocKeR```
+  Logged in with google: EM: Use gmail to login
 
+- Dev gmail
+  sofa.king.plh@gmail.com
+  Reactjs@2021
 
