@@ -5,6 +5,7 @@ import { ApplicationRequestMapperType } from "../../../types/Application_Request
 import { getConnection } from 'typeorm';
 import { Application_Request_Mapper } from '../../../entity/Application_Request_Mapper';
 import { Application_Master } from "../../../entity/Application_Master";
+import { mailerServiceCore } from "../../../utils/mailUtils/nodeMailer";
 
 @Resolver()
 export class UserApplicationRequestMapperResolver {
@@ -22,13 +23,19 @@ export class UserApplicationRequestMapperResolver {
       ) {
             let userId= payload!.uid;
             try {
+                /*
+                        If request the already has already been made, no need to validate this from BE,
+                        FE will handle this validation layer, as no button will appear for the request that has been 
+                        pedning, approved or rejected
+                */
                 const requestOwner = await getConnection().createQueryBuilder().insert().into(Application_Request_Mapper)
                                     .values({
                                           Request_App_Name: requestAccepterMutation.Application_Name,
                                           Request_App_By_Reg_UserID: userId
                                     }).execute().then((e)=> {
                                           console.log(e);
-                                    })
+                                    });
+                  mailerServiceCore(payload?.userName!, `Your request for Application- ${requestAccepterMutation.Application_Name} has been submited successfully. Waiting for admin's approval. `);
                   return 'Your request is on pending status';
             } catch (error) {
                   return 'Your request has been rejected due to some error';
