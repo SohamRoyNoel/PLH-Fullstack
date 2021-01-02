@@ -75,3 +75,7 @@
   sofa.king.plh@gmail.com
   Reactjs@2021
 
+- Dev issue, POLICY ERROR for script execution:
+  Open powershell as administrator 
+  run ```Set-ExecutionPolicy Unrestricted``` 
+  more: https://docs.vmware.com/en/vRealize-Automation/7.1/com.vmware.vra.iaas.hp.doc/GUID-9670AFC5-76B8-4321-822A-BCE05800DB5B.html

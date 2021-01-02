@@ -6,6 +6,7 @@ import { getConnection } from 'typeorm';
 import { Application_Request_Mapper } from '../../../entity/Application_Request_Mapper';
 import { Application_Master } from "../../../entity/Application_Master";
 import { mailerServiceCore } from "../../../utils/mailUtils/nodeMailer";
+import { createUrlToAcceptApplicationRequest } from "../../../utils/linkcreator";
 
 @Resolver()
 export class UserApplicationRequestMapperResolver {
@@ -33,15 +34,20 @@ export class UserApplicationRequestMapperResolver {
                                           Request_App_Name: requestAccepterMutation.Application_Name,
                                           Request_App_By_Reg_UserID: userId
                                     }).execute().then((e)=> {
-                                          console.log(e);
+                                          // Create Link
+                                          let url = createUrlToAcceptApplicationRequest(
+                                                parseInt(e.identifiers[0].Request_ID),
+                                                requestAccepterMutation.Application_Name,
+                                                'pending',
+                                                userId,
+                                                0
+                                          );
+                                          
+                                          // Mail Sender
+                                          mailerServiceCore(payload?.userName!, `Your request for Application- ${requestAccepterMutation.Application_Name} has been submited successfully. Waiting for admin's approval. `, 'U');
+                                          mailerServiceCore("Admin", `Employee named- ${payload?.userName} has created a request for Appname- ${requestAccepterMutation.Application_Name}. Click the below link to approve. `, 'A', url);
                                     });
-
-                  // Create Link
                   
-
-                  // Mail Sender
-                  mailerServiceCore(payload?.userName!, `Your request for Application- ${requestAccepterMutation.Application_Name} has been submited successfully. Waiting for admin's approval. `, 'U');
-                  mailerServiceCore("Admin", `Employee named- ${payload?.userName} has created a request for Appname- ${requestAccepterMutation.Application_Name}. Click the below link to approve. `, 'A', `http://plh.com/approval`);
                   return 'Your request is on pending status';
             } catch (error) {
                   return 'Your request has been rejected due to some error';

@@ -1,6 +1,7 @@
 import { BaseEntity, Column, Entity, BeforeInsert, PrimaryGeneratedColumn, JoinColumn, OneToOne, ManyToOne } from 'typeorm';
 import { Field, ObjectType, Int } from 'type-graphql';
 import { User_Registration } from './User_Registration';
+import { Application_User_Mapper } from './Application_User_Mapper';
 
 @ObjectType()
 @Entity({ name: 'Application_Master' })
@@ -25,7 +26,10 @@ export class Application_Master extends BaseEntity {
 
       @Field(() => Int)
       @Column({ default: 1 })
-      Application_ID_Flag: number;      
+      Application_ID_Flag: number;     
+      
+      @ManyToOne(() => Application_User_Mapper, aum => aum.App_Application_ID)
+      ApplicationUserMapper: Promise<Application_User_Mapper[]>;
       
 }
 
