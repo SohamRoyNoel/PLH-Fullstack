@@ -25,6 +25,9 @@ export class Application_Request_Mapper extends BaseEntity {
 
       @Field(() => String)
       @Column({ default: 'Pending' })
-      Request_Status: string;      
+      Request_Status: string;   
+      
+      @Column({ default: 0 })
+      counter: number
       
 }
