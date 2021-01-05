@@ -32,7 +32,7 @@ export class Application_Master extends BaseEntity {
       @ManyToOne(() => Application_User_Mapper, aum => aum.App_Application_ID)
       ApplicationUserMapper: Promise<Application_User_Mapper[]>;
 
-      @ManyToOne(() => TestScenario_Master, tsm => tsm.TS_Application_ID)
+      @OneToMany(() => TestScenario_Master, tsm => tsm.TS_Application_ID)
       TSApplicationMapper: Promise<TestScenario_Master[]>;
       
 }

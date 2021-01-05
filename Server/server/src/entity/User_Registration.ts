@@ -71,7 +71,7 @@ export class User_Registration extends BaseEntity {
     @OneToMany(() => Application_User_Mapper, aum => aum.App_user_Reg_ID)
     ApplicationUserMapper: Promise<Application_User_Mapper[]>;
 
-    @ManyToOne(() => TestScenario_Master, tsm => tsm.TS_Reg_UserID)
+    @OneToMany(() => TestScenario_Master, tsm => tsm.TS_Reg_UserID)
     TSUserMapper: Promise<TestScenario_Master[]>;
 
     @BeforeInsert()

@@ -7,6 +7,12 @@ import { User_Registration } from "./User_Registration";
 @Entity({ name: 'TestScenario_Master' })
 export class TestScenario_Master {
 
+      constructor(name: string, uid: number, appid: number) {
+            this.TS_Name  = name;
+            this.TS_Application_ID = appid,
+            this.TS_Reg_UserID = uid
+      }
+
       @Field(() => ID)
       @PrimaryGeneratedColumn()
       TS_ID: number;
