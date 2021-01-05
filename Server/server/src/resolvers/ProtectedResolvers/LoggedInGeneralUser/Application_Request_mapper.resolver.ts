@@ -23,6 +23,7 @@ export class UserApplicationRequestMapperResolver {
             @Ctx() { payload }: IctxType
       ) {
             let userId= payload!.uid;
+            let userEmail = payload?.userEmail!;
             try {
                 /*
                         If request the already has already been made, no need to validate this from BE,
@@ -44,8 +45,8 @@ export class UserApplicationRequestMapperResolver {
                                           );
                                           
                                           // Mail Sender
-                                          mailerServiceCore(payload?.userName!, `Your request for Application- ${requestAccepterMutation.Application_Name} has been submited successfully. Waiting for admin's approval. `, 'U');
-                                          mailerServiceCore("Admin", `Employee named- ${payload?.userName} has created a request for Appname- ${requestAccepterMutation.Application_Name}. Click the below link to approve. `, 'A', url);
+                                          mailerServiceCore(payload?.userName!, `Your request for Application- ${requestAccepterMutation.Application_Name} has been submited successfully. Waiting for admin's approval. `, 'U', userEmail,);
+                                          mailerServiceCore("Admin", `Employee named- ${payload?.userName} has created a request for Appname- ${requestAccepterMutation.Application_Name}. Click the below link to approve. `, 'A', process.env.ADMIN_MAIL_DL!, url);
                                     });
                   
                   return 'Your request is on pending status';

@@ -1,4 +1,3 @@
-import { count } from "console";
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from "type-graphql";
 import { getConnection } from "typeorm";
 import { Application_Master } from "../../../entity/Application_Master";
@@ -7,6 +6,7 @@ import { Application_User_Mapper } from "../../../entity/Application_User_Mapper
 import { IsAuthMiddleware } from "../../../middlewares/IsAuth.middleware";
 import { IctxType } from "../../../types/AppCTX/Ictx.type";
 import { createUrlToAcceptApplicationRequestDecoder } from "../../../utils/linkcreator";
+import { mailerServiceCore } from "../../../utils/mailUtils/nodeMailer";
 
 @Resolver()
 export class UserApplicationRequestMapperResolver_AdminAccepter {
@@ -18,6 +18,8 @@ export class UserApplicationRequestMapperResolver_AdminAccepter {
         @Ctx() { payload }: IctxType 
     ){
         try {
+            let userEmail = payload?.userEmail;
+
             let x = createUrlToAcceptApplicationRequestDecoder(tokenCollector);
             
             let reqId = Object.values(x)[0];
@@ -61,6 +63,10 @@ export class UserApplicationRequestMapperResolver_AdminAccepter {
                         App_user_Reg_ID: uid
                     }).execute().then((e) => {
                         console.log(e);
+                    }).then(() => {
+                        let url = process.env.APP_HOSTED;
+                        mailerServiceCore(payload?.userName!, `Your request for Application- ${appNm} has been approved. Why wait! let's start hacking. `, 'U', userEmail!);
+                        mailerServiceCore("Admin", `You have successfully approved an Application request named - ${appNm} for Employee named- ${payload?.userName}. Click the below link to manage. `, 'A', process.env.ADMIN_MAIL_DL!, process.env.APP_HOSTED!);
                     });                
                 
                 return true; 

@@ -7,7 +7,7 @@
    "database": "plhdashboardb_Dev_Mock",
    "synchronize": true,
    "autoSchemaSync": true,
-   "logging": true,
+   "logging": false,
    "options": {
       "encrypt": true,
       "enableArithAbort": true

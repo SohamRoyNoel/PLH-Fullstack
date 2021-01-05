@@ -4,6 +4,7 @@ import { IsAuthMiddleware } from "../../../middlewares/IsAuth.middleware";
 import { IctxType } from "../../../types/AppCTX/Ictx.type";
 import { ApplicationInsertionType } from "../../../types/Application_Master.type";
 import { getConnection } from 'typeorm';
+import { mailerServiceCore } from "../../../utils/mailUtils/nodeMailer";
 
 @Resolver()
 export class ApplicationResolver {
@@ -15,19 +16,23 @@ export class ApplicationResolver {
             @Ctx() { payload }: IctxType 
       ) {
             let userId = payload!.uid;
+            let userEmail = payload?.userEmail!;
             let userRole = payload!.userRole;
             if(userRole !== 'Admin'){
                   throw new Error('Admin Rights needed to perform this action');
             }
 
             try {
-                const appOwner = await getConnection().createQueryBuilder().insert().into(Application_Master)
+                  await getConnection().createQueryBuilder().insert().into(Application_Master)
                   .values({
                         Application_Name: applicationInsertion.Application_Name,
                         Application_Reg_Admin_UserID: userId
                   }).execute().then((e) => {
-                        console.log(e);
+                        //console.log(e);
+                        let url = process.env.APP_HOSTED;
+                        mailerServiceCore("Admin", `Admin ${payload?.userName} has created an Application named- ${applicationInsertion.Application_Name}. Please check the portal for details.`, 'A', process.env.ADMIN_MAIL_DL!, url);
                   });  
+                  
             } catch (error) {
                   return false;
             }

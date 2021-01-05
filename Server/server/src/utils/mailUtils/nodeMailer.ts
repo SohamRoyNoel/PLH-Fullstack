@@ -3,7 +3,7 @@ import * as handlebars from 'handlebars';
 import * as fs from 'fs';
 import * as path from 'path';
 
-export async function mailerServiceCore(un:string | null, actionText: string | null, flag: string, link? : string) {
+export async function mailerServiceCore(un:string | null, actionText: string | null, flag: string, tos: string ,link? : string) {
 
   const filePath = path.join(__dirname, './MailBody.html');
   const source = fs.readFileSync(filePath, 'utf-8').toString();
@@ -56,9 +56,9 @@ export async function mailerServiceCore(un:string | null, actionText: string | n
     
     await transporter.sendMail({
       from: process.env.MAILER_FROM, // sender address
-      to: "sofa.king.plh@gmail.com", // list of receivers
+      to: tos, // list of receivers
       subject: "Cognizant Performance LightHouse Notification", // Subject line
-      text: "Hello world?", // plain text body
+      text: "Hypothetic world?", // plain text body
       html: htmlToSend,
       attachments: [
         {

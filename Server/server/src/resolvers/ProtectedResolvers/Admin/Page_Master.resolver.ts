@@ -2,7 +2,6 @@ import { Ctx, Query, Resolver, UseMiddleware } from "type-graphql";
 import { IsAuthMiddleware } from "../../../middlewares/IsAuth.middleware";
 import { IctxType } from "../../../types/AppCTX/Ictx.type";
 import { Page_Master } from "../../../entity/Page_Master";
-import { mailerServiceCore } from "../../../utils/mailUtils/nodeMailer";
 
 @Resolver()
 export class PageResolver  {
