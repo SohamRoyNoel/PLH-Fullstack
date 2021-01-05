@@ -23,6 +23,7 @@ import { UserApplicationRequestMapperResolver_AdminAccepter } from "./resolvers/
 
 // Do not use in PRODUCTION: GraphQL Lifecycle logger - DEV only
 import { graphql_REQ_Query_LifeCycle_Logger_dev } from "./utils/graphql_REQ_Query_LifeCycle.Logger.dev";
+import { TestScenarioMasterResolver } from "./resolvers/ProtectedResolvers/LoggedInGeneralUser/TestScenario_Master.resolver";
 
 (async () => {
     const app = express();
@@ -73,7 +74,8 @@ import { graphql_REQ_Query_LifeCycle_Logger_dev } from "./utils/graphql_REQ_Quer
                 RegisteredUserResolver,
                 PageResolver,
                 UserApplicationRequestMapperResolver,
-                UserApplicationRequestMapperResolver_AdminAccepter
+                UserApplicationRequestMapperResolver_AdminAccepter,
+                TestScenarioMasterResolver
             ],
         }),
         tracing: true,

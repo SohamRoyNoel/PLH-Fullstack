@@ -27,7 +27,7 @@ export class UserApplicationRequestMapperResolver {
                 /*
                         If request the already has already been made, no need to validate this from BE,
                         FE will handle this validation layer, as no button will appear for the request that has been 
-                        pedning, approved or rejected
+                        pending, approved or rejected
                 */
                 const requestOwner = await getConnection().createQueryBuilder().insert().into(Application_Request_Mapper)
                                     .values({

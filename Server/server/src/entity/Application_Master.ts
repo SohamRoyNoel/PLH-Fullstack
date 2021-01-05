@@ -1,7 +1,8 @@
-import { BaseEntity, Column, Entity, BeforeInsert, PrimaryGeneratedColumn, JoinColumn, OneToOne, ManyToOne } from 'typeorm';
+import { BaseEntity, Column, Entity, BeforeInsert, PrimaryGeneratedColumn, JoinColumn, OneToOne, ManyToOne, OneToMany } from 'typeorm';
 import { Field, ObjectType, Int } from 'type-graphql';
 import { User_Registration } from './User_Registration';
 import { Application_User_Mapper } from './Application_User_Mapper';
+import { TestScenario_Master } from './TestScenario_Master';
 
 @ObjectType()
 @Entity({ name: 'Application_Master' })
@@ -30,6 +31,9 @@ export class Application_Master extends BaseEntity {
       
       @ManyToOne(() => Application_User_Mapper, aum => aum.App_Application_ID)
       ApplicationUserMapper: Promise<Application_User_Mapper[]>;
+
+      @OneToMany(() => TestScenario_Master, tsm => tsm.TS_Application_ID)
+      TSApplicationMapper: Promise<TestScenario_Master[]>;
       
 }
 

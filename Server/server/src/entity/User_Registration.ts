@@ -7,6 +7,7 @@ import { Security_Questions } from './Security_Questions';
 import { Application_Master } from './Application_Master';
 import { Application_Request_Mapper } from "./Application_Request_Mapper";
 import { Application_User_Mapper } from "./Application_User_Mapper";
+import { TestScenario_Master } from './TestScenario_Master';
 /**
  * This Entity will work for DB model as well as GQL Type
  */
@@ -69,6 +70,9 @@ export class User_Registration extends BaseEntity {
 
     @OneToMany(() => Application_User_Mapper, aum => aum.App_user_Reg_ID)
     ApplicationUserMapper: Promise<Application_User_Mapper[]>;
+
+    @OneToMany(() => TestScenario_Master, tsm => tsm.userRegistrations)
+    TSUserMapper: Promise<TestScenario_Master[]>;
 
     @BeforeInsert()
     private async encryptPassword(): Promise<void> {
