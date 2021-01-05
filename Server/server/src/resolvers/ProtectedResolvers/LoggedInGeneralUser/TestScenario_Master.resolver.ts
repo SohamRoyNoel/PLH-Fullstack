@@ -5,7 +5,7 @@ import { TestScenarioMasterType } from '../../../types/TestScenario_Master.type'
 import { Application_Master } from '../../../entity/Application_Master';
 import { getConnection, getManager } from 'typeorm';
 import { TestScenario_Master } from "../../../entity/TestScenario_Master";
-import { User_Registration } from '../../../entity/User_Registration';
+import { mailerServiceCore } from "../../../utils/mailUtils/nodeMailer";
 
 @Resolver()
 export class TestScenarioMasterResolver {
@@ -21,6 +21,8 @@ export class TestScenarioMasterResolver {
             */
             try {
                   const user = payload?.uid;
+                  let userEmail = payload?.userEmail!;
+                  
                   let foundApp = await Application_Master.findOne({ where: {
                        Application_Name: acceptTestScenarioMutation.TS_Application_Name
                   } }).then((e) => {
@@ -39,7 +41,10 @@ export class TestScenarioMasterResolver {
                                    
                                    var actualValues = createBulkJsonObject.substring(0, createBulkJsonObject.length-1);
                                    var query = `insert into TestScenario_Master(TS_Name, tSApplicationIDApplicationID, Reg_UserID) values ${actualValues}`;
-                                   await getManager().query(query);          
+                                   await getManager().query(query).then(() => {
+                                         
+                                         mailerServiceCore(payload?.userName!, `Your Test Scenarios - ${array} are added to the list. You can execute code against issued test case name. `, 'U', userEmail.trim());
+                                   })       
                              }
                         });                     
                         

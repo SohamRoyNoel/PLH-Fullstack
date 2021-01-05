@@ -1,4 +1,4 @@
-import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
+import { Arg, Ctx, Query, Resolver, UseMiddleware } from "type-graphql";
 import { User_Registration } from "../../../entity/User_Registration";
 import { IsAuthMiddleware } from '../../../middlewares/IsAuth.middleware';
 import { IctxType } from "../../../types/AppCTX/Ictx.type";
