@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn} from "typeorm";
 import { Field, ObjectType, Int, ID } from 'type-graphql';
 import { Application_Master } from './Application_Master';
 import { User_Registration } from "./User_Registration";
@@ -6,12 +6,6 @@ import { User_Registration } from "./User_Registration";
 @ObjectType()
 @Entity({ name: 'TestScenario_Master' })
 export class TestScenario_Master {
-
-      constructor(name: string, uid: number, appid: number) {
-            this.TS_Name  = name;
-            this.TS_Application_ID = appid,
-            this.TS_Reg_UserID = uid
-      }
 
       @Field(() => ID)
       @PrimaryGeneratedColumn()
@@ -25,10 +19,6 @@ export class TestScenario_Master {
       @ManyToOne(type => Application_Master, ur => ur.TSApplicationMapper)
       TS_Application_ID: number;
 
-      @Field(() => Int)
-      @ManyToOne(type => User_Registration, ur => ur.TSUserMapper)
-      TS_Reg_UserID: number;
-
       @Field(() => String)
       @Column({ type: 'datetime2', default:createDate() })
       TS_CreationTime: string;
@@ -37,7 +27,9 @@ export class TestScenario_Master {
       @Column({ nullable:false, default: 1 })
       TS_ID_FLAG: number;
 
-      @OneToMany(() => User_Registration, ur => ur.regSecurityQusIDSeqQusID)
+      @Field(() => User_Registration)
+      @ManyToOne(() => User_Registration, ur => ur.TSUserMapper)
+      @JoinColumn({ name: 'Reg_UserID' })
       userRegistrations: User_Registration[];
 }
 
