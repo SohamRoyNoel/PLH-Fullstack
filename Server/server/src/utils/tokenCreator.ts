@@ -11,6 +11,7 @@ export const CreateAccessToken = (oneUser: User_Registration) => {
             userEmail: oneUser.Reg_Email,
             userRole: oneUser.Reg_User_Type,
             userAPIKey: oneUser.Reg_API_KEY,
+            tokenVersion: oneUser.Token_Version,
             userActiveFlag: oneUser.Reg_UserID_Flag
       },
       process.env.ACCESS_JWT_SECRET!,

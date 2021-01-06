@@ -1,8 +1,9 @@
 import { verify } from "jsonwebtoken";
 import { MiddlewareFn } from "type-graphql";
 import { IctxType } from '../types/AppCTX/Ictx.type';
+import { User_Registration } from '../entity/User_Registration';
 
-export const IsAuthMiddleware: MiddlewareFn<IctxType> = ({ context }, next) => {
+export const IsAuthMiddleware: MiddlewareFn<IctxType> = async ({ context }, next) => {
 
       const authorization = context.req.headers['authorization']
       
@@ -14,14 +15,23 @@ export const IsAuthMiddleware: MiddlewareFn<IctxType> = ({ context }, next) => {
       try {
             const token = authorization.split(' ')[1];
             const payload = verify(token, process.env.ACCESS_JWT_SECRET!);
-            /**
-             * Assign the payload value to Context payload
-             * To access it from any GQL query/ middleware
-             */
-            context.payload = payload as any;
+
+            // Check the token version before putting on context
+            let userId: number = Object.values(payload)[0];
+            const findUser = await User_Registration.findOne({ Reg_UserID: userId });
+            
+            if(findUser?.Token_Version !==  Object.values(payload)[7]) {
+                  throw new Error('User is unauthorized or temporarily banned. You will receive a mail regarding the recovery process.');
+            } else{
+                  /**
+                   * Assign the payload value to Context payload
+                   * To access it from any GQL query/ middleware
+                   */
+                  context.payload = payload as any;
+            } 
       } catch (error) {
             console.log("Access denied");
-            throw new Error('User is unauthorized');
+            throw new Error('User is unauthorized or temporarily banned. You will receive a mail regarding the recovery process.');
       }
 
       return next();

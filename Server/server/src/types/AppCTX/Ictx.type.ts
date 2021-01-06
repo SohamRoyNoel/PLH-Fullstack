@@ -11,6 +11,7 @@ export interface IctxType {
             userEmail: string,
             userRole: string,
             userAPIKey: string,
-            userActiveFlag: number
+            userActiveFlag: number,
+            userToken: number
       }
 }
