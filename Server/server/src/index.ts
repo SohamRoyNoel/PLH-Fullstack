@@ -20,10 +20,11 @@ import { RegisteredUserResolver } from "./resolvers/ProtectedResolvers/Admin/Use
 import { PageResolver } from "./resolvers/ProtectedResolvers/Admin/Page_Master.resolver";
 import { UserApplicationRequestMapperResolver } from "./resolvers/ProtectedResolvers/LoggedInGeneralUser/Application_Request_mapper.resolver";
 import { UserApplicationRequestMapperResolver_AdminAccepter } from "./resolvers/ProtectedResolvers/Admin/Application_Request_Mapper_Admin.resolver";
+import { TestScenarioMasterResolver } from "./resolvers/ProtectedResolvers/LoggedInGeneralUser/TestScenario_Master.resolver";
+import { SecurityQuestionsResolver } from "./resolvers/ProtectedResolvers/Admin/Security_Questions.resolver";
 
 // Do not use in PRODUCTION: GraphQL Lifecycle logger - DEV only
 import { graphql_REQ_Query_LifeCycle_Logger_dev } from "./utils/graphql_REQ_Query_LifeCycle.Logger.dev";
-import { TestScenarioMasterResolver } from "./resolvers/ProtectedResolvers/LoggedInGeneralUser/TestScenario_Master.resolver";
 
 (async () => {
     const app = express();
@@ -75,7 +76,8 @@ import { TestScenarioMasterResolver } from "./resolvers/ProtectedResolvers/Logge
                 PageResolver,
                 UserApplicationRequestMapperResolver,
                 UserApplicationRequestMapperResolver_AdminAccepter,
-                TestScenarioMasterResolver
+                TestScenarioMasterResolver,
+                SecurityQuestionsResolver
             ],
         }),
         tracing: true,
