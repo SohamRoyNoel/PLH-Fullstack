@@ -1,6 +1,5 @@
 import { IsEmail, IsNotEmpty, Matches, MaxLength, MinLength } from 'class-validator';
 import { Field, InputType, Int, ID } from 'type-graphql';
-import { Security_Questions } from '../entity/Security_Questions';
 
 @InputType()
 export class UserRegistrationType {

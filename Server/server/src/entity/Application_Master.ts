@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, BeforeInsert, PrimaryGeneratedColumn, JoinColumn, OneToOne, ManyToOne, OneToMany } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Field, ObjectType, Int } from 'type-graphql';
 import { User_Registration } from './User_Registration';
 import { Application_User_Mapper } from './Application_User_Mapper';

@@ -2,7 +2,6 @@ import { Ctx, Query, Resolver, UseMiddleware } from "type-graphql";
 import { IsAuthMiddleware } from '../../middlewares/IsAuth.middleware';
 import { IctxType } from '../../types/AppCTX/Ictx.type';
 
-
 @Resolver()
 export class ProtectedResolverHealth {
 
