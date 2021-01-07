@@ -22,6 +22,7 @@ import { UserApplicationRequestMapperResolver } from "./resolvers/ProtectedResol
 import { UserApplicationRequestMapperResolver_AdminAccepter } from "./resolvers/ProtectedResolvers/Admin/Application_Request_Mapper_Admin.resolver";
 import { TestScenarioMasterResolver } from "./resolvers/ProtectedResolvers/LoggedInGeneralUser/TestScenario_Master.resolver";
 import { SecurityQuestionsResolver } from "./resolvers/ProtectedResolvers/Admin/Security_Questions.resolver";
+import { ChangePasswordProtectedResolver } from "./resolvers/ProtectedResolvers/LoggedInGeneralUser/Change_Password.resolver";
 
 // Do not use in PRODUCTION: GraphQL Lifecycle logger - DEV only
 import { graphql_REQ_Query_LifeCycle_Logger_dev } from "./utils/graphql_REQ_Query_LifeCycle.Logger.dev";
@@ -77,7 +78,8 @@ import { graphql_REQ_Query_LifeCycle_Logger_dev } from "./utils/graphql_REQ_Quer
                 UserApplicationRequestMapperResolver,
                 UserApplicationRequestMapperResolver_AdminAccepter,
                 TestScenarioMasterResolver,
-                SecurityQuestionsResolver
+                SecurityQuestionsResolver,
+                ChangePasswordProtectedResolver
             ],
         }),
         tracing: true,
