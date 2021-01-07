@@ -3,16 +3,17 @@ import { IsAuthMiddleware } from '../../../middlewares/IsAuth.middleware';
 import { IctxType } from "../../../types/AppCTX/Ictx.type";
 import { ChangePasswordType } from '../../../types/Change_Password.type';
 import { User_Registration } from '../../../entity/User_Registration';
-import { compare } from 'bcryptjs';
+import { compare, hash } from 'bcryptjs';
 import { mailerServiceCore } from "../../../utils/mailUtils/nodeMailer";
 import { changePasswordURLProvider } from "../../../utils/linkcreator";
 import { getConnection } from 'typeorm';
+import { verify } from "jsonwebtoken";
 
 @Resolver()
 export class ChangePasswordProtectedResolver {
 
-      // NO user name
-      // Wrong em and PS
+      // Set OTP and LINK  
+      // I/p: [USER Email] and [current password ]   
       @Mutation(() => Boolean)
       @UseMiddleware(IsAuthMiddleware)
       async acceptChangePasswordRequest(
@@ -46,15 +47,74 @@ export class ChangePasswordProtectedResolver {
            }
       }
 
-      // Find TestScenarios by App Name
+      // validate JWT's OTP with DB OTP
+      // I/p: [JWT from URL] & [OTP from user's mail] & [user's email]
+      // STORE EMAIL on local storage
       @Query(() => Boolean)
-      @UseMiddleware(IsAuthMiddleware)
-      async approveChangePasswordRequest(
+      async validateChangePasswordRequest(
             @Arg("acceptPasswordQuery") acceptPasswordQuery: ChangePasswordType,
-            @Ctx() { payload }: IctxType
       ) {         
-            
+            const receivedJWT = acceptPasswordQuery.userJWT;
+            const receivedEmail = acceptPasswordQuery.userEmail;
+            try {
+                  const payloads = verify(receivedJWT!, process.env.MAILER_TOKEN_SECRET!);
+                  let getOtp = Object.values(payloads)[3];
+                  let uid = Object.values(payloads)[0];
+                  let userValidation = await User_Registration.findOne({ Reg_UserID: uid });
+                  
+                  if(userValidation?.OTP !== getOtp) { return false; }
+
+                  // Remove the OTP
+                  await getConnection().createQueryBuilder().update(User_Registration)
+                        .set({ OTP: 0, OTPFlag: 1 })
+                        .where("Reg_UserID= :i", { i: uid })
+                        .execute();                  
+
+                  return true;
+            } catch (error) {
+                  mailerServiceCore(`${receivedEmail}`, ` Lighthouse detected some suspicious activity on your account. Consider changing password. `, 'U', receivedEmail!);
+                  return false;
+            }
       }
 
+
+      // Let the user change his password
+      // I/p: [New password] & [EMAIL from LOCAL STORAGE]
+      // Remove all session from browser from FE
+      @Mutation(() => Boolean)
+      async approveChangePasswordRequest(
+            @Arg("acceptPasswordQuery") acceptPasswordQuery: ChangePasswordType,
+      ) {  
+            let userPassword = acceptPasswordQuery.userNewPassword;
+  
+            try {
+                  // check the flag
+                  let user = await User_Registration.findOne({ Reg_Email: acceptPasswordQuery.userEmail })
+                  if(user?.OTPFlag !== 1) {
+                        mailerServiceCore(`${acceptPasswordQuery.userEmail}`, ` Lighthouse detected some suspicious activity on your account. Consider changing password. `, 'U', acceptPasswordQuery.userEmail!);  
+                        return false;
+                  }
+                  let x = await hash(userPassword!, 12); // returns a hashed password
+                  
+                  // Change the password
+                  await getConnection().createQueryBuilder().update(User_Registration)
+                        .set({ Reg_Password: x })
+                        .where("Reg_Email= :i", { i: acceptPasswordQuery.userEmail })
+                        .execute().then(() => {
+                            mailerServiceCore(`${acceptPasswordQuery.userEmail}`, ` Your password is updated successfully. Please login again to continue. `, 'U', acceptPasswordQuery.userEmail!);  
+                        })
+
+                  // Change the flag to false
+                  await getConnection().createQueryBuilder().update(User_Registration)
+                        .set({ OTP: 0, OTPFlag: 0 })
+                        .where("Reg_Email= :i", { i: acceptPasswordQuery.userEmail })
+                        .execute();                  
+
+                  return true;
+            } catch (error) {
+                  console.log(error);
+                  return false;
+            }
+      }
 }
 

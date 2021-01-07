@@ -1,3 +1,4 @@
+import { Matches, MaxLength, MinLength } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
 
 @InputType()
@@ -13,9 +14,15 @@ export class ChangePasswordType {
       userOTP?: string;
 
       @Field(() => String, { defaultValue: null })
+      userJWT?: string;
+
+      @Field(() => String, { defaultValue: null })
+      @MinLength(6)
+      @MaxLength(16)
+      @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {message: 'Password too weak'})
       userNewPassword?: string;
 
       @Field(() => String, { defaultValue: null })
-      userNewConfirmPassword?: string;
+      finalStepChecker?: string;
 
 }
