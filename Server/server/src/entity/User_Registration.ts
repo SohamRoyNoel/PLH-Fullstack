@@ -62,6 +62,9 @@ export class User_Registration extends BaseEntity {
     @Column({ default: 0 })
     Token_Version: number;
 
+    @Column({ default: 0 })
+    OTP: number;
+
     @OneToMany(() => Application_Master, am => am.Application_Reg_Admin_UserID)
     ApplicationMaster: Promise<Application_Master[]>;
 
