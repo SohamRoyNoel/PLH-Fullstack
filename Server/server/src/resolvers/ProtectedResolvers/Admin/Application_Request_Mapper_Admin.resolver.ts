@@ -54,20 +54,27 @@ export class UserApplicationRequestMapperResolver_AdminAccepter {
                         Application_Name: appNm
                     }
                 });
+
+                /**
+                 * It will return undefined if the app is not present
+                 */
                 let AppId = getApp?.Application_ID;
-                
-                // add this entity to Application_User Mapper
-                await getConnection().createQueryBuilder().insert().into(Application_User_Mapper)
-                    .values({
-                        App_Application_ID: AppId,
-                        App_user_Reg_ID: uid
-                    }).execute().then((e) => {
-                        console.log(e);
-                    }).then(() => {
-                        let url = process.env.APP_HOSTED;
-                        mailerServiceCore(payload?.userName!, `Your request for Application- ${appNm} has been approved. Why wait! let's start hacking. `, 'U', userEmail!);
-                        mailerServiceCore("Admin", `You have successfully approved an Application request named - ${appNm} for Employee named- ${payload?.userName}. Click the below link to manage. `, 'A', process.env.ADMIN_MAIL_DL!, process.env.APP_HOSTED!);
-                    });                
+                if(AppId === undefined){
+                    
+                    // Create the App
+                    let newApp = await getConnection().createQueryBuilder().insert().into(Application_Master)
+                        .values({
+                            Application_Name: appNm,
+                            Application_Reg_Admin_UserID: payload?.uid
+                        }).execute();
+
+                    let recentID = newApp.identifiers[0].Application_ID!;
+                    // Put the mapper
+                    givePermission(recentID, uid, payload?.userName!, appNm, userEmail!);
+                } else {
+                    // IF app exists then add this entity to Application_User Mapper
+                    givePermission(AppId, uid, payload?.userName!, appNm, userEmail!);
+                }
                 
                 return true; 
             } else{
@@ -81,4 +88,18 @@ export class UserApplicationRequestMapperResolver_AdminAccepter {
         
     }
 
+}
+
+async function givePermission(AppId: number, uid: number, userName: string, appNm: string, userEmail: string) {
+    await getConnection().createQueryBuilder().insert().into(Application_User_Mapper)
+    .values({
+        App_Application_ID: AppId,
+        App_user_Reg_ID: uid
+    }).execute().then((e) => {
+            console.log(e);
+    }).then(() => {
+            let url = process.env.APP_HOSTED;
+            mailerServiceCore(userName, `Your request for Application- ${appNm} has been approved. Why wait! let's start hacking. `, 'U', userEmail!);
+            mailerServiceCore("Admin", `You have successfully approved an Application request named - ${appNm} for Employee named- ${userName}. Click the below link to manage. `, 'A', process.env.ADMIN_MAIL_DL!, process.env.APP_HOSTED!);
+    });                
 }
