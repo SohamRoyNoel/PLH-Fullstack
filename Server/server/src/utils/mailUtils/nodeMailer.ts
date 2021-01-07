@@ -41,10 +41,13 @@ export async function mailerServiceCore(un:string | null, actionText: string | n
 
   if(flag === 'A'){
     targetLock = '/AdminMailBody.html';
-  } else if(flag === 'R') {
+  } else if (flag === 'R') {
     targetLock = '/RecoverySteps.html';
-  }  
-  else {
+  } else if (flag === 'CP1') {
+    targetLock = '/ChangePassword_link.html';
+  } else if (flag === 'CP2') {
+    targetLock = '/ChangePassword_OTP.html'
+  } else {
     targetLock = '/MailBody.html';
   }
 
