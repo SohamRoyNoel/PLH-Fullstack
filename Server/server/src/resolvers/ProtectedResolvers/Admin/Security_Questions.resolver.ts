@@ -11,7 +11,7 @@ export class SecurityQuestionsResolver {
 
       @Mutation(() => Boolean)
       @UseMiddleware(IsAuthMiddleware)
-      async createSecurityQuestions(
+      async a_createSecurityQuestions(
             @Arg("SecurityQuestionsInsertion") securityQuestionsInsertion: SecurityQuestionsType,
             @Ctx() { payload }: IctxType 
       ) {
@@ -39,7 +39,7 @@ export class SecurityQuestionsResolver {
 
       @Query(() => [Security_Questions])
       @UseMiddleware(IsAuthMiddleware)
-      async getSecurityQuestions(
+      async a_getSecurityQuestions(
             @Ctx() { payload }: IctxType 
       ) {
             let userRole = payload!.userRole;

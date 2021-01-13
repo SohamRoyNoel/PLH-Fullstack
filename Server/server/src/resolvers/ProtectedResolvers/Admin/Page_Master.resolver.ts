@@ -8,7 +8,7 @@ export class PageResolver  {
 
       @Query(() => [Page_Master])
       @UseMiddleware(IsAuthMiddleware)
-      async getPages(
+      async a_getPages(
             @Ctx() { payload }: IctxType 
       ) {
             let userRole = payload!.userRole;

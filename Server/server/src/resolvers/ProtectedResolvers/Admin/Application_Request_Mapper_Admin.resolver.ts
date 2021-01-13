@@ -13,7 +13,7 @@ export class UserApplicationRequestMapperResolver_AdminAccepter {
 
     @Mutation(() => Boolean)
     @UseMiddleware(IsAuthMiddleware)
-    async acceptAppUserRequest(
+    async a_acceptAppUserRequest(
         @Arg("token") tokenCollector: string,
         @Ctx() { payload }: IctxType 
     ){
