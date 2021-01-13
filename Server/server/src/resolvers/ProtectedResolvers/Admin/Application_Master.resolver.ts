@@ -11,7 +11,7 @@ export class ApplicationResolver {
 
       @Mutation(() => Boolean)
       @UseMiddleware(IsAuthMiddleware)
-      async createApplications(
+      async a_createApplications(
             @Arg("AdminApplicationInsertion") applicationInsertion: ApplicationInsertionType,
             @Ctx() { payload }: IctxType 
       ) {
@@ -42,7 +42,7 @@ export class ApplicationResolver {
 
       @Query(() => [Application_Master])
       @UseMiddleware(IsAuthMiddleware)
-      async getApplications(
+      async a_getApplications(
             @Ctx() { payload }: IctxType 
       ) {
             let userRole = payload!.userRole;

@@ -10,7 +10,7 @@ export class RegisteredUserResolver {
 
       @Query(() => [User_Registration])
       @UseMiddleware(IsAuthMiddleware)
-      getUsers(
+      async a_getUsers(
             @Ctx() { payload }: IctxType
       ) {
             let userRole = payload!.userRole;
