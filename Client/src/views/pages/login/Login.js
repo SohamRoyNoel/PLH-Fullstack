@@ -7,14 +7,13 @@ import {
   CCardGroup,
   CCol,
   CContainer,
-  CForm,
-  CInput,
   CInputGroup,
   CInputGroupPrepend,
   CInputGroupText,
   CRow
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { Formik } from 'formik';
 
 const Login = () => {
   return (
@@ -25,34 +24,93 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
-                  <CForm>
-                    <h1>Login</h1>
-                    <p className="text-muted">Sign In to your account</p>
-                    <CInputGroup className="mb-3">
+                <h1>Login</h1>
+                <p className="text-muted">Sign In to your account</p>
+                <Formik
+                  initialValues={{ email: '', password: '' }}
+                  validate={values => {
+                    const errors = {};
+                    // Validate Email
+                    if (!values.email) {
+                      errors.email = 'Email is Required';
+                      return errors;
+                    } else if (
+                      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                    ) {
+                      errors.email = 'Invalid email address';
+                      return errors;
+                    }
+
+                    // Validate Password
+                    if (!values.password) {
+                      errors.password = 'Password is Required';
+                      return errors;
+                    }                     
+                  }}
+                  onSubmit={(values, { setSubmitting }) => {
+                    setTimeout(() => {
+                      alert(JSON.stringify(values, null, 2));
+                      setSubmitting(false);
+                    }, 400);
+                  }}
+                >
+                  {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    isSubmitting,
+                    /* and other goodies */
+                  }) => (
+                    <form onSubmit={handleSubmit}>
+                      <CInputGroup className="mb-3">
                       <CInputGroupPrepend>
                         <CInputGroupText>
-                          <CIcon name="cil-user" />
+                          <CIcon name="cil-envelope-closed" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput type="text" placeholder="Username" autoComplete="username" />
-                    </CInputGroup>
-                    <CInputGroup className="mb-4">
-                      <CInputGroupPrepend>
-                        <CInputGroupText>
-                          <CIcon name="cil-lock-locked" />
-                        </CInputGroupText>
-                      </CInputGroupPrepend>
-                      <CInput type="password" placeholder="Password" autoComplete="current-password" />
-                    </CInputGroup>
-                    <CRow>
-                      <CCol xs="6">
-                        <CButton color="primary" className="px-4">Login</CButton>
-                      </CCol>
-                      <CCol xs="6" className="text-right">
-                        <CButton color="link" className="px-0">Forgot password?</CButton>
-                      </CCol>
-                    </CRow>
-                  </CForm>
+                        <input
+                          type="email"
+                          name="email"
+                          className="form-control"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.email}
+                          placeholder="email"
+                          autoComplete="username" 
+                        />
+                      </CInputGroup> 
+                      {errors.email && touched.email && errors.email}
+
+                      <CInputGroup className="mb-4">
+                        <CInputGroupPrepend>
+                          <CInputGroupText>
+                            <CIcon name="cil-lock-locked" />
+                          </CInputGroupText>
+                        </CInputGroupPrepend>
+                        <input
+                          type="password"
+                          name="password"
+                          className="form-control"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.password}
+                          placeholder="password"
+                        />
+                      </CInputGroup>                   
+                      {errors.password && touched.password && errors.password}
+                      <br />
+                      <button 
+                      type="submit"
+                      className="btn btn-outline-warning"
+                      disabled={isSubmitting}>
+                        Submit
+                      </button>
+                    </form>
+                  )}
+                </Formik>
                 </CCardBody>
               </CCard>
               <CCard className="text-white bg-primary py-5 d-md-down-none" style={{ width: '44%' }}>
