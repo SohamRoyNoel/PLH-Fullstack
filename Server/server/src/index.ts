@@ -11,6 +11,7 @@ import "dotenv/config";
 var morgan = require('morgan');
 import cookieParser = require("cookie-parser");
 import { verify } from 'jsonwebtoken';
+const cors = require('cors');
 import { User_Registration } from './entity/User_Registration';
 import { CreateAccessToken, CreateRefreshToken } from './utils/tokenCreator';
 import { SendRefreshTokenOnRefreshedAccessToken } from './utils/sendRefreshTokenOnRefreshedAccessToken';
@@ -31,7 +32,13 @@ import { graphql_REQ_Query_LifeCycle_Logger_dev } from "./utils/graphql_REQ_Quer
     const app = express();
     app.use(morgan('combined'));
 
+    var corsOptions = {
+        origin: process.env.CORS_ORIGIN,
+        optionsSuccessStatus: 200 
+    };
+
     // Handle refresh token
+    
     app.use(cookieParser());
     app.post('/getNewAccessToken', async (req, res) => {
 
@@ -63,7 +70,7 @@ import { graphql_REQ_Query_LifeCycle_Logger_dev } from "./utils/graphql_REQ_Quer
     });
 
     await createConnection();  
-    
+        
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
             resolvers: [
@@ -89,11 +96,11 @@ import { graphql_REQ_Query_LifeCycle_Logger_dev } from "./utils/graphql_REQ_Quer
         context: ({ req, res }) => ({ req, res }) // Use context to pass req & response to mutations or queries
     });
 
-    apolloServer.applyMiddleware({ app, cors: false });
+    apolloServer.applyMiddleware({ app, cors: corsOptions });
 
     app.listen(4000, () => {
         console.log("App is started");
-    })
+    }).keepAliveTimeout = 10000
     
     
 })();
