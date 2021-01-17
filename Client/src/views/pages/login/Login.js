@@ -14,8 +14,11 @@ import {
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { Formik } from 'formik';
+import { useMutation } from '@apollo/client';
+import Login_Mutation from '../../../graphql/login.graphql';
 
 const Login = () => {
+  const [loginMutation, { data }] = useMutation(Login_Mutation);
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
       <CContainer>
@@ -48,10 +51,20 @@ const Login = () => {
                     }                     
                   }}
                   onSubmit={(values, { setSubmitting }) => {
-                    setTimeout(() => {
-                      alert(JSON.stringify(values, null, 2));
-                      setSubmitting(false);
-                    }, 400);
+                    console.log(values);
+                    let x = loginMutation({ variables: { login: values.email, password: values.password } }).catch((e) => {
+                      console.log(e);
+                    });
+                    
+                    new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                        resolve(x);
+                      }, 300);
+                    }).then((e) => {
+                      // console.log(e.data.findLoggedInUser.accessToken);
+                      localStorage.setItem("_jid", e.data.findLoggedInUser.accessToken);
+                    })
+
                   }}
                 >
                   {({
