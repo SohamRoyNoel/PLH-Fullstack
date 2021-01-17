@@ -1,5 +1,11 @@
-version: "3.7"
+version: "2"
 services: 
+  services: 
+    build: .
+    ports: 
+    - "4000:4000"
+    depends_on: 
+    - plhdashboardb
   plhdashboardb:
     container_name: plhdashboardb
     image: mcr.microsoft.com/mssql/server:2019-latest

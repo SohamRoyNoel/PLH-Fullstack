@@ -3,6 +3,8 @@
             "coreui",
             "formik",
             "insertable",
-            "linkcreator"
+            "linkcreator",
+            "mssql",
+            "plhdashboardb"
       ]
 }
