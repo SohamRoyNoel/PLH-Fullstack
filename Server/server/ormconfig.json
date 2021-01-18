@@ -1,7 +1,6 @@
 {
    "type": "mssql",
-   "host": "localhost",
-   "port":1434,
+   "host": "plhdashboardb",
    "username": "sa",
    "password": "I_AM_mr_React",
    "database": "plhdashboardb_Dev_Mock",

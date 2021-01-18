@@ -17,7 +17,14 @@
 - Run all migrations: ```ts-node ./node_modules/typeorm/cli.js migration:run```
 - Drop all migrations OR clear cache: ```ts-node ./node_modules/typeorm/cli.js schema:drop```
 
+- Docker RESET ALL: ```docker system prune -a --volumes```
+
 - Seed Creation: ```sequelize seed:create --name Security_Questions```
+
+## Containerize both SERVER + DB
+
+- Build the project: ```docker build -t server .```
+- run the project: ```docker-compose up -d```
 
 ## TypeORM installation process
 
