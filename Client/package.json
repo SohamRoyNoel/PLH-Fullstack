@@ -49,7 +49,7 @@
     "react-scripts": "^4.0.1"
   },
   "scripts": {
-    "dev:client": "react-scripts start",
+    "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:cov": "npm test -- --coverage --watchAll=false",

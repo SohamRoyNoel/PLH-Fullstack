@@ -9,9 +9,7 @@ mutation{
       regSecurityQusIDSeqQusID: 1,
       Reg_Security_Qus_Ans: "yes",
     }
-  ){
-    Reg_F_Name,
-  }
+  )
 }
 
 mutation{
@@ -25,9 +23,7 @@ mutation{
       regSecurityQusIDSeqQusID: 1,
       Reg_Security_Qus_Ans: "yes",
     }
-  ){
-    Reg_F_Name,
-  }
+  )
 }
 
 mutation{
@@ -41,9 +37,7 @@ mutation{
       regSecurityQusIDSeqQusID: 1,
       Reg_Security_Qus_Ans: "yes", 
     }
-  ){
-    Reg_F_Name,
-  }
+  )
 }
 
 mutation{
@@ -57,9 +51,7 @@ mutation{
       regSecurityQusIDSeqQusID: 2,
       Reg_Security_Qus_Ans: "yes",
     }
-  ){
-    Reg_F_Name,
-  }
+  )
 }
 
 mutation{
@@ -73,9 +65,7 @@ mutation{
       regSecurityQusIDSeqQusID: 3,
       Reg_Security_Qus_Ans: "no",
     }
-  ){
-    Reg_F_Name,
-  }
+  )
 }
 
 # Find all users: Protected Route
