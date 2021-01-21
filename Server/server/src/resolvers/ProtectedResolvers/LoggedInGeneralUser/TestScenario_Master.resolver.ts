@@ -26,17 +26,14 @@ export class TestScenarioMasterResolver {
                        Application_Name: acceptTestScenarioMutation.TS_Application_Name
                   } }).then((e) => {
                         return e?.Application_ID;
-                  })
-
+                  });
                   
                   // Validation -1 -> Check if TC Name exists for same APPLICATION
                   let givenTS = acceptTestScenarioMutation.applicationsName?.map(n => '\'' + n + '\'').toString(); 
-                  console.log(givenTS!.substring(1, givenTS!.length - 1), foundApp);               
 
                   var rawQueryToValidateIfExists = `select * from TestScenario_Master where TS_Name IN(${givenTS}) and Ts_application_id=${foundApp}`;
                   const ifDuplicateTSForSameApp: TestScenario_Master[] = await getManager().query(rawQueryToValidateIfExists);
 
-                  console.log("Len : " + ifDuplicateTSForSameApp.length);
                   if(ifDuplicateTSForSameApp.length > 0) {
                         return false;
                   }else {
@@ -85,7 +82,6 @@ export class TestScenarioMasterResolver {
                         .innerJoinAndSelect("testScenario_Master.userRegistrations", "userRegistrations")
                         .where("testScenario_Master.TS_Application_ID = :appId", { appId: selectedAppID })
                         .getMany();                     
-            console.log("++++ : " + tsm);
             return tsm;
       }
 
