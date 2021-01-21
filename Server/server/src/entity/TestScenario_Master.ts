@@ -17,6 +17,7 @@ export class TestScenario_Master {
 
       @Field(() => Int)
       @ManyToOne(type => Application_Master, ur => ur.TSApplicationMapper)
+      @JoinColumn({ name: 'TS_Application_ID' })
       TS_Application_ID: number;
 
       @Field(() => String)

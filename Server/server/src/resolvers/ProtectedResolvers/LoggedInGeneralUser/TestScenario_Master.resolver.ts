@@ -1,10 +1,10 @@
+import { TestScenario_Master } from './../../../entity/TestScenario_Master';
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { IsAuthMiddleware } from '../../../middlewares/IsAuth.middleware';
 import { IctxType } from "../../../types/AppCTX/Ictx.type";
 import { TestScenarioMasterType } from '../../../types/TestScenario_Master.type';
 import { Application_Master } from '../../../entity/Application_Master';
 import { getConnection, getManager } from 'typeorm';
-import { TestScenario_Master } from "../../../entity/TestScenario_Master";
 import { mailerServiceCore } from "../../../utils/mailUtils/nodeMailer";
 
 @Resolver()
@@ -22,37 +22,49 @@ export class TestScenarioMasterResolver {
             try {
                   const user = payload?.uid;
                   let userEmail = payload?.userEmail!;
-                  
                   let foundApp = await Application_Master.findOne({ where: {
                        Application_Name: acceptTestScenarioMutation.TS_Application_Name
                   } }).then((e) => {
                         return e?.Application_ID;
                   })
 
-                  if(foundApp! > 0 && foundApp !== undefined) {
-                        /**
-                         * await and insert the data into TestScenario_Master
-                        */
-                        let createBulkJsonObject: string = '';
-                        var tcs: String[] = [];
-                        acceptTestScenarioMutation.applicationsName!.forEach(async (value: any, index: any, array: any) => {
-                             createBulkJsonObject += "('" + value +"',"+ foundApp! +","+ user + "),";                             
-                             if(index === acceptTestScenarioMutation.applicationsName!.length - 1){
-                                   
-                                   var actualValues = createBulkJsonObject.substring(0, createBulkJsonObject.length-1);
-                                   var query = `insert into TestScenario_Master(TS_Name, tSApplicationIDApplicationID, Reg_UserID) values ${actualValues}`;
-                                   await getManager().query(query).then(() => {
-                                         
-                                         mailerServiceCore(payload?.userName!, `Your Test Scenarios - ${array} are added to the list. You can execute code against issued test case name. `, 'U', userEmail.trim());
-                                   })       
-                             }
-                        });                     
-                        
-                        return true;
-                  } else{
-                        return false;
-                  }
                   
+                  // Validation -1 -> Check if TC Name exists for same APPLICATION
+                  let givenTS = acceptTestScenarioMutation.applicationsName?.map(n => '\'' + n + '\'').toString(); 
+                  console.log(givenTS!.substring(1, givenTS!.length - 1), foundApp);               
+
+                  var rawQueryToValidateIfExists = `select * from TestScenario_Master where TS_Name IN(${givenTS}) and Ts_application_id=${foundApp}`;
+                  const ifDuplicateTSForSameApp: TestScenario_Master[] = await getManager().query(rawQueryToValidateIfExists);
+
+                  console.log("Len : " + ifDuplicateTSForSameApp.length);
+                  if(ifDuplicateTSForSameApp.length > 0) {
+                        return false;
+                  }else {
+                        /* 
+                              Insert only when there is no existing TS
+                        */
+                        if(foundApp! > 0 && foundApp !== undefined) {
+                              /**
+                               * await and insert the data into TestScenario_Master
+                              */
+                              let createBulkJsonObject: string = '';
+                              var tcs: String[] = [];
+                              acceptTestScenarioMutation.applicationsName!.forEach(async (value: any, index: any, array: any) => {
+                                   createBulkJsonObject += "('" + value +"',"+ foundApp! +","+ user + "),";                             
+                                   if(index === acceptTestScenarioMutation.applicationsName!.length - 1){
+                                         var actualValues = createBulkJsonObject.substring(0, createBulkJsonObject.length-1);
+                                         var query = `insert into TestScenario_Master(TS_Name, TS_Application_ID, Reg_UserID) values ${actualValues}`;
+                                         await getManager().query(query).then(() => {
+                                               mailerServiceCore(payload?.userName!, `Your Test Scenarios - ${array} are added to the list. You can execute code against issued test case name. `, 'U', userEmail.trim());
+                                         })       
+                                   }
+                              });                     
+                              
+                              return true;
+                        } else{
+                              return false;
+                        }
+                  }
             } catch (error) {
                   console.log(error);
                   return false;

@@ -1,6 +1,6 @@
 # Create Application:
 mutation{
-  createApplications(AdminApplicationInsertion: {
+  a_createApplications(AdminApplicationInsertion: {
     Application_Name: "TestApp3"
   })
 }
