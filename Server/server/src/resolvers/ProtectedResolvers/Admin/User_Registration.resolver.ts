@@ -24,10 +24,10 @@ export class RegisteredUserResolver {
 
             return User_Registration.find();
       } 
-      
+
       @Mutation(() => Boolean)
       @UseMiddleware(IsAuthMiddleware)
-      async a_userBlockerReviver(
+      async a_userBlockerReviver_AdminMaker_EmailChanger(
             @Arg("AdminActionOverUserType") adminActionOverUserType: AdminActionOverUserType,
             @Ctx() { payload }: IctxType
       ) {
@@ -46,21 +46,40 @@ export class RegisteredUserResolver {
             })
             
             if(isBlocked!.Reg_UserID_Flag === 1){     
-                  return blockerUnblocker(0, "temporarily blocked", isBlocked!.Reg_UserID, isBlocked!.Reg_Email, isBlocked!.Reg_UserName);
+                  return blockerUnblocker(
+                        0, 
+                        "temporarily blocked",
+                         isBlocked!.Reg_UserID,
+                          isBlocked!.Reg_Email, 
+                          isBlocked!.Reg_UserName,
+                          adminActionOverUserType.email === null ? isBlocked?.Reg_Email! : adminActionOverUserType.email!,
+                          adminActionOverUserType.makeAdmin === null ? "User" : "Admin"
+                  );
             } else {
-                  return blockerUnblocker(1, "unblocked", isBlocked!.Reg_UserID, isBlocked!.Reg_Email, isBlocked!.Reg_UserName);
+                  return blockerUnblocker(1,
+                        "unblocked", 
+                        isBlocked!.Reg_UserID, 
+                        isBlocked!.Reg_Email, 
+                        isBlocked!.Reg_UserName,
+                        isBlocked?.Reg_Email!,
+                        "User"
+                  );
             }
       }
 }
 
-async function blockerUnblocker(flag: number, actionParam:String, id:number, mailId: string, userName: string): Promise<Boolean>{
+async function blockerUnblocker(flag: number, actionParam:String, id:number, mailId: string, userName: string, newEmail: string, userType: string): Promise<Boolean>{
+      console.log("Admin : " + newEmail);
       return await getConnection().createQueryBuilder().update(User_Registration)
       .set({
-            Reg_UserID_Flag: flag
+            Reg_UserID_Flag: flag,
+            Reg_Email: newEmail,
+            Reg_User_Type: userType
       }).where("Reg_UserID = :uid", { uid: id }).execute().then(() => {
             mailerServiceCore(userName, `Your account has been ${actionParam} by Admin team, please contact team to unblock. `, 'U', mailId,);
             return true;
-      }).catch(() => {
+      }).catch((e) => {
+            console.log(e);
             return false;
       });
 }
