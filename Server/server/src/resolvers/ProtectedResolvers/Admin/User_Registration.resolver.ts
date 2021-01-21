@@ -67,7 +67,7 @@ export class RegisteredUserResolver {
             }
       }
 }
-ss
+
 async function blockerUnblocker(flag: number, actionParam:String, id:number, mailId: string, userName: string, newEmail: string, userType: string): Promise<Boolean>{
       console.log("Admin : " + newEmail);
       return await getConnection().createQueryBuilder().update(User_Registration)
