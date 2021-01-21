@@ -1,7 +1,10 @@
-import { Arg, Ctx, Query, Resolver, UseMiddleware } from "type-graphql";
+import { AdminActionOverUserType } from './../../../types/Admin_UserAction.type';
+import { getConnection } from 'typeorm';
+import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { User_Registration } from "../../../entity/User_Registration";
 import { IsAuthMiddleware } from '../../../middlewares/IsAuth.middleware';
 import { IctxType } from "../../../types/AppCTX/Ictx.type";
+import { mailerServiceCore } from '../../../utils/mailUtils/nodeMailer';
 /**
  * This Mutation returns USERList For admin only
  */
@@ -20,5 +23,44 @@ export class RegisteredUserResolver {
             }
 
             return User_Registration.find();
-      }     
+      } 
+      
+      @Mutation(() => Boolean)
+      @UseMiddleware(IsAuthMiddleware)
+      async a_userBlockerReviver(
+            @Arg("AdminActionOverUserType") adminActionOverUserType: AdminActionOverUserType,
+            @Ctx() { payload }: IctxType
+      ) {
+            let userRole = payload!.userRole;
+            
+            if(userRole !== 'Admin'){
+                  throw new Error('Admin Rights needed to perform this action');
+            }
+            
+            if(adminActionOverUserType.uid! === null || adminActionOverUserType.uid! <= 0 || adminActionOverUserType.uid! === payload!.uid){
+                  return false;
+            }
+
+            const isBlocked = await User_Registration.findOne({
+                  where: { Reg_UserID: adminActionOverUserType.uid }
+            })
+            
+            if(isBlocked!.Reg_UserID_Flag === 1){     
+                  return blockerUnblocker(0, "temporarily blocked", isBlocked!.Reg_UserID, isBlocked!.Reg_Email, isBlocked!.Reg_UserName);
+            } else {
+                  return blockerUnblocker(1, "unblocked", isBlocked!.Reg_UserID, isBlocked!.Reg_Email, isBlocked!.Reg_UserName);
+            }
+      }
+}
+
+async function blockerUnblocker(flag: number, actionParam:String, id:number, mailId: string, userName: string): Promise<Boolean>{
+      return await getConnection().createQueryBuilder().update(User_Registration)
+      .set({
+            Reg_UserID_Flag: flag
+      }).where("Reg_UserID = :uid", { uid: id }).execute().then(() => {
+            mailerServiceCore(userName, `Your account has been ${actionParam} by Admin team, please contact team to unblock. `, 'U', mailId,);
+            return true;
+      }).catch(() => {
+            return false;
+      });
 }
