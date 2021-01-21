@@ -19,14 +19,11 @@ export class UserApplicationRequestMapperResolver_AdminAccepter {
     ){
         try {
             let userEmail = payload?.userEmail;
-
             let x = createUrlToAcceptApplicationRequestDecoder(tokenCollector);
-            
             let reqId = Object.values(x)[0];
             let appNm = Object.values(x)[1];
             let uid = Object.values(x)[3];
             let counter = Object.values(x)[4];
-
             // Check counter
             let counterByDB = await Application_Request_Mapper.findOne({
                 where: {
@@ -35,7 +32,6 @@ export class UserApplicationRequestMapperResolver_AdminAccepter {
             }).then((e) => {
                 return e?.counter
             })
-
             if(counter === counterByDB){
                 // Update the Application_Request_Mapper table: make 'Pending' to 'Approved'
                 await getConnection().createQueryBuilder()
@@ -47,20 +43,17 @@ export class UserApplicationRequestMapperResolver_AdminAccepter {
                 }).where("Request_ID = :id and Request_App_Name = :apnm and requestAppByRegUserIDRegUserID = :user", {
                     id: reqId, apnm: appNm, user: uid
                 }).execute();
-            
                 // Find the application
                 let getApp = await Application_Master.findOne({
                     where:{
                         Application_Name: appNm
                     }
                 });
-
                 /**
                  * It will return undefined if the app is not present
                  */
                 let AppId = getApp?.Application_ID;
                 if(AppId === undefined){
-                    
                     // Create the App
                     let newApp = await getConnection().createQueryBuilder().insert().into(Application_Master)
                         .values({
@@ -74,20 +67,15 @@ export class UserApplicationRequestMapperResolver_AdminAccepter {
                 } else {
                     // IF app exists then add this entity to Application_User Mapper
                     givePermission(AppId, uid, payload?.userName!, appNm, userEmail!);
-                }
-                
+                } 
                 return true; 
             } else{
                 return false;
-            }
-
-            
+            }  
         } catch (error) {
             return false;
         }
-        
     }
-
 }
 
 async function givePermission(AppId: number, uid: number, userName: string, appNm: string, userEmail: string) {
