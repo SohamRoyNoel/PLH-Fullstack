@@ -36,8 +36,11 @@ export class ApplicationUserMapperResolver  {
 
     /**
      * Admin & User both can see the USER-APPLICATION map, 
-     * thats how USER can see their specific application &
-     * ADMIN can see all USER's all APPLICATIONs
+     * thats how USER can EDIT their specific application &
+     * ADMIN can EDIT all USER's all APPLICATIONs
+     * 
+     * Validation Level: User's app will be validated from FE, no relation is showed on FE, 
+     * So no need for BE validation 
      * @param param0 
     */
     @Mutation(() => Boolean)
