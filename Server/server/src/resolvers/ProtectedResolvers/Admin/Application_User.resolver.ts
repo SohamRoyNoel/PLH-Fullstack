@@ -45,7 +45,7 @@ export class ApplicationUserMapperResolver  {
     */
     @Mutation(() => Boolean)
     @UseMiddleware(IsAuthMiddleware)
-    async a_killOrReviveUserMappedToApp(
+    async au_killOrReviveUserMappedToApp(
         @Arg("AdminActionOverUserApplicationType") adminActionOverUserApplicationType: AdminActionOverUserApplicationType,
         @Ctx() { payload }: IctxType 
     ) {
