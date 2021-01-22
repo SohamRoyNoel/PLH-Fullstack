@@ -1,3 +1,5 @@
+import { Application_Master } from './../../../entity/Application_Master';
+import { User_Registration } from './../../../entity/User_Registration';
 import { Application_User_Mapper } from './../../../entity/Application_User_Mapper';
 import { getManager, getConnection } from 'typeorm';
 import { AdminActionOverUserApplicationType } from './../../../types/Admin_ApplicationUser.type';
@@ -5,6 +7,7 @@ import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql
 import { IsAuthMiddleware } from "../../../middlewares/IsAuth.middleware";
 import { IctxType } from "../../../types/AppCTX/Ictx.type";
 import { Application_User_Mapper_GQLType } from '../../../entity/outputDataProviders/Application_UserMapper.helper';
+import { mailerServiceCore } from '../../../utils/mailUtils/nodeMailer';
 
 @Resolver()
 export class ApplicationUserMapperResolver  {
@@ -50,11 +53,7 @@ export class ApplicationUserMapperResolver  {
         @Ctx() { payload }: IctxType 
     ) {
         let userRole = payload!.userRole;
-                    
-        if(userRole !== 'Admin'){
-            throw new Error('Admin Rights needed to perform this action');
-        }
-
+        
         // Check the state of user and app relation
         let isActive = await Application_User_Mapper.findOne({
             where: {
@@ -74,7 +73,26 @@ export class ApplicationUserMapperResolver  {
         })
         .where("App_user_Reg_ID= :uid and App_Application_ID= :appId",
             { uid: adminActionOverUserApplicationType.userId, appId: adminActionOverUserApplicationType.appId }
-        ).execute().then((e) => {
+        ).execute().then(async (e) => {
+            let userName = await User_Registration.findOne({
+                where: {
+                    Reg_UserID: adminActionOverUserApplicationType.userId
+                }
+            });
+            let appName = await Application_Master.findOne({
+                where: {
+                    Application_ID: adminActionOverUserApplicationType.appId
+                }
+            })
+            if (payload!.userRole === 'Admin') {
+                // User
+                mailerServiceCore(userName!.Reg_UserName, `Your access to ${appName?.Application_Name} has been ${isActive === 1 ? "blocked" : "re-Granted"} by admin. More info can be found on portal.`, 'U', userName!.Reg_Email);
+                // Admin
+                mailerServiceCore("Admin", `You have ${isActive === 1 ? "blocked" : "re-Granted"} User - ${userName!.Reg_UserName}'s access to the Application - ${appName?.Application_Name}. Please visit the portal to revert the change`, 'U', process.env.ADMIN_MAIL_DL!);
+            } else {
+                // User
+                mailerServiceCore(userName!.Reg_UserName, `You have released access to Application ${appName?.Application_Name}. Contact the admin team to revert back, if done by mistake. `, 'U', userName!.Reg_Email);
+            }
             return true;
         }).catch((e) => {
             console.log(e);
