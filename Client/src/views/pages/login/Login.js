@@ -18,7 +18,7 @@ import { useMutation } from '@apollo/client';
 import Login_Mutation from '../../../graphql/login.graphql';
 
 const Login = () => {
-  const [loginMutation, { data }] = useMutation(Login_Mutation);
+  const [loginMutation] = useMutation(Login_Mutation);
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
       <CContainer>
@@ -50,13 +50,13 @@ const Login = () => {
                       return errors;
                     }                     
                   }}
-                  onSubmit={(values, { setSubmitting }) => {
+                  onSubmit={(values, { }) => {
                     console.log(values);
                     let x = loginMutation({ variables: { login: values.email, password: values.password } }).catch((e) => {
                       console.log(e);
                     });
                     
-                    new Promise((resolve, reject) => {
+                    new Promise((resolve) => {
                       setTimeout(() => {
                         resolve(x);
                       }, 300);
