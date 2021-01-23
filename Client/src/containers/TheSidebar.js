@@ -9,6 +9,7 @@ import {
   CSidebarMinimizer,
   CSidebarNavDropdown,
   CSidebarNavItem,
+  CSidebarNavDivider
 } from '@coreui/react'
 
 import CIcon from '@coreui/icons-react'
@@ -42,6 +43,7 @@ const TheSidebar = () => {
         <CCreateElement
           items={navigation}
           components={{
+            CSidebarNavDivider,
             CSidebarNavDropdown,
             CSidebarNavItem,
             CSidebarNavTitle

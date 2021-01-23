@@ -1,7 +1,7 @@
 import React from 'react';
 import CIcon from '@coreui/icons-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDesktop } from '@fortawesome/free-solid-svg-icons';
+import { faAt, faDesktop, faHeart, faQuestion, faQuestionCircle, faUserCog, faUsers, faVial } from '@fortawesome/free-solid-svg-icons';
 
 const _nav =  [
   {
@@ -22,19 +22,19 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'Application Management',
     to: '/theme/colors',
-    icon: <FontAwesomeIcon icon={faDesktop} size="2x" style={{ paddingRight: "10" }} />,
+    icon: <FontAwesomeIcon icon={faDesktop} size="2x" style={{ paddingRight: "6" }} />,
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Test Cases Management',
     to: '/theme/typography',
-    icon: 'cil-pencil',
+    icon: <FontAwesomeIcon icon={faVial} size="2x" style={{ paddingRight: "6" }} />,
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'App Relation Management',
     to: '/theme/typography',
-    icon: 'cil-pencil',
+    icon: <FontAwesomeIcon icon={faHeart} size="2x" style={{ paddingRight: "5" }} />,
   },
   {
     _tag: 'CSidebarNavTitle',
@@ -44,43 +44,43 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'User Management',
     to: '/charts',
-    icon: 'cil-chart-pie'
+    icon: <FontAwesomeIcon icon={faUsers} size="2x" style={{ paddingRight: "5" }} />,
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Application Management',
     to: '/charts',
-    icon: 'cil-chart-pie'
+    icon: <FontAwesomeIcon icon={faDesktop} size="2x" style={{ paddingRight: "6" }} />,
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Request Management',
     to: '/charts',
-    icon: 'cil-chart-pie'
+    icon: <FontAwesomeIcon icon={faQuestionCircle} size="2x" style={{ paddingRight: "5" }} />,
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'User-App Management',
     to: '/charts',
-    icon: 'cil-chart-pie'
+    icon: <FontAwesomeIcon icon={faUserCog} size="2x" style={{ paddingRight: "10" }} />,
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Page Management',
     to: '/charts',
-    icon: 'cil-chart-pie'
+    icon: <FontAwesomeIcon icon={faAt} size="2x" style={{ paddingRight: "6" }} />,
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Test Cases Management',
     to: '/charts',
-    icon: 'cil-chart-pie'
+    icon: <FontAwesomeIcon icon={faVial} size="2x" style={{ paddingRight: "6" }} />,
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Security Question Management',
     to: '/charts',
-    icon: 'cil-chart-pie'
+    icon: <FontAwesomeIcon icon={faQuestionCircle} size="2x" style={{ paddingRight: "6" }} />,
   },
   {
     _tag: 'CSidebarNavDivider'
@@ -93,13 +93,7 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'FAQ',
     to: '/charts',
-    icon: 'cil-chart-pie'
-  },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Help',
-    to: '/charts',
-    icon: 'cil-chart-pie'
+    icon: <FontAwesomeIcon icon={faQuestion} size="2x" style={{ paddingRight: "5" }} />,
   },
   {
     _tag: 'CSidebarNavDivider',
