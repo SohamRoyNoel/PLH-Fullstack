@@ -5,11 +5,11 @@ import {
   CSidebar,
   CSidebarBrand,
   CSidebarNav,
-  CSidebarNavDivider,
   CSidebarNavTitle,
   CSidebarMinimizer,
   CSidebarNavDropdown,
   CSidebarNavItem,
+  CSidebarNavDivider
 } from '@coreui/react'
 
 import CIcon from '@coreui/icons-react'
