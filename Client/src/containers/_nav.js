@@ -3,7 +3,7 @@ import CIcon from '@coreui/icons-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAt, faDesktop, faHeart, faQuestion, faQuestionCircle, faUserCog, faUsers, faVial } from '@fortawesome/free-solid-svg-icons';
 
-const _nav =  [
+const _adminNav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'Dashboard',
@@ -99,6 +99,93 @@ const _nav =  [
     _tag: 'CSidebarNavDivider',
     className: 'm-2'
   }
+];
+
+const _userNav =  [
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Dashboard',
+    to: '/dashboard',
+    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
+    badge: {
+      color: 'info',
+      text: 'PLH-2.0',
+    }
+  },
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['User']
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Application Management',
+    to: '/theme/colors',
+    icon: <FontAwesomeIcon icon={faDesktop} size="2x" style={{ paddingRight: "6" }} />,
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Test Cases Management',
+    to: '/theme/typography',
+    icon: <FontAwesomeIcon icon={faVial} size="2x" style={{ paddingRight: "6" }} />,
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'App Relation Management',
+    to: '/theme/typography',
+    icon: <FontAwesomeIcon icon={faHeart} size="2x" style={{ paddingRight: "5" }} />,
+  },
+  {
+    _tag: 'CSidebarNavDivider'
+  },
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['HELP'],
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'FAQ',
+    to: '/charts',
+    icon: <FontAwesomeIcon icon={faQuestion} size="2x" style={{ paddingRight: "5" }} />,
+  },
+  {
+    _tag: 'CSidebarNavDivider',
+    className: 'm-2'
+  }
+];
+
+const _noRoleNav =  [
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Dashboard',
+    to: '/dashboard',
+    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
+    badge: {
+      color: 'info',
+      text: 'PLH-2.0',
+    }
+  },
+  {
+    _tag: 'CSidebarNavDivider'
+  },
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['HELP'],
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'FAQ',
+    to: '/charts',
+    icon: <FontAwesomeIcon icon={faQuestion} size="2x" style={{ paddingRight: "5" }} />,
+  },
+  {
+    _tag: 'CSidebarNavDivider',
+    className: 'm-2'
+  }
 ]
 
-export default _nav
+
+export {
+  _adminNav,
+  _userNav,
+  _noRoleNav
+};
