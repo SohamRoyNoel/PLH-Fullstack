@@ -15,10 +15,13 @@ import {
 import CIcon from '@coreui/icons-react';
 import { Formik } from 'formik';
 import { useMutation } from '@apollo/client';
+import swal from 'sweetalert';
 import Login_Mutation from '../../../graphql/login.graphql';
+import { useHistory } from 'react-router-dom';
 
 const Login = () => {
   const [loginMutation] = useMutation(Login_Mutation);
+  const history = useHistory();
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
       <CContainer>
@@ -50,7 +53,7 @@ const Login = () => {
                       return errors;
                     }                     
                   }}
-                  onSubmit={(values, { }) => {
+                  onSubmit={(values) => {
                     console.log(values);
                     let x = loginMutation({ variables: { login: values.email, password: values.password } }).catch((e) => {
                       console.log(e);
@@ -63,6 +66,11 @@ const Login = () => {
                     }).then((e) => {
                       // console.log(e.data.findLoggedInUser.accessToken);
                       localStorage.setItem("_jid", e.data.findLoggedInUser.accessToken);
+                      history.push('/dashboard');
+                    }).catch(() => {
+                      swal("Error Login", "Try Again", "error").then(() => {
+                        window.location.reload();
+                      });
                     })
 
                   }}
