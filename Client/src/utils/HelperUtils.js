@@ -14,6 +14,21 @@ function decodeJWt() {
     }
 }
 
+function returnJWTCore() {
+    
+    try {
+        let token = localStorage.getItem('_jid');
+        if(token === undefined) {
+            return undefined;
+        }else {
+            return token;
+        }
+    } catch (error) { 
+        return undefined;
+    }
+}
+
 export{
-    decodeJWt
+    decodeJWt,
+    returnJWTCore
 } ;
