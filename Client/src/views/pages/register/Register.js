@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   CButton,
   CCard,
@@ -6,66 +6,212 @@ import {
   CCardFooter,
   CCol,
   CContainer,
-  CForm,
-  CInput,
   CInputGroup,
   CInputGroupPrepend,
   CInputGroupText,
   CRow
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { useHistory } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { Formik } from 'formik';
+import swal from 'sweetalert';
+import Login_Mutation from '../../../graphql/login.graphql';
+import SecurityQuestions from './SecurityQuestionsDD';
 
 const Register = () => {
+  const history = useHistory();
+  const [loginMutation] = useMutation(Login_Mutation);
+  const goToLogin = () => {
+    history.push('/login');
+  }
+  const goToDashboard = () => {
+    history.push('/dashboard');
+  }
   return (
+
     <div className="c-app c-default-layout flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md="9" lg="7" xl="6">
             <CCard className="mx-4">
               <CCardBody className="p-4">
-                <CForm>
                   <h1>Register</h1>
                   <p className="text-muted">Create your account</p>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupPrepend>
-                      <CInputGroupText>
-                        <CIcon name="cil-user" />
-                      </CInputGroupText>
-                    </CInputGroupPrepend>
-                    <CInput type="text" placeholder="Username" autoComplete="username" />
-                  </CInputGroup>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupPrepend>
-                      <CInputGroupText>@</CInputGroupText>
-                    </CInputGroupPrepend>
-                    <CInput type="text" placeholder="Email" autoComplete="email" />
-                  </CInputGroup>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupPrepend>
-                      <CInputGroupText>
-                        <CIcon name="cil-lock-locked" />
-                      </CInputGroupText>
-                    </CInputGroupPrepend>
-                    <CInput type="password" placeholder="Password" autoComplete="new-password" />
-                  </CInputGroup>
-                  <CInputGroup className="mb-4">
-                    <CInputGroupPrepend>
-                      <CInputGroupText>
-                        <CIcon name="cil-lock-locked" />
-                      </CInputGroupText>
-                    </CInputGroupPrepend>
-                    <CInput type="password" placeholder="Repeat password" autoComplete="new-password" />
-                  </CInputGroup>
-                  <CButton color="success" block>Create Account</CButton>
-                </CForm>
+                  <Formik
+                  initialValues={{ email: '', password: '' }}
+                  validate={values => {
+                    const errors = {};
+                    // Validate Email
+                    if (!values.email) {
+                      errors.email = 'Email is Required';
+                      return errors;
+                    } else if (
+                      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                    ) {
+                      errors.email = 'Invalid email address';
+                      return errors;
+                    }
+
+                    // Validate Password
+                    if (!values.password) {
+                      errors.password = 'Password is Required';
+                      return errors;
+                    }                     
+                  }}
+                  onSubmit={(values) => {
+                    console.log(values);
+                    let x = loginMutation({ variables: { login: values.email, password: values.password } }).catch((e) => {
+                      console.log(e);
+                    });
+                    
+                    new Promise((resolve) => {
+                      setTimeout(() => {
+                        resolve(x);
+                      }, 300);
+                    }).then((e) => {
+                      // console.log(e.data.findLoggedInUser.accessToken);
+                      localStorage.setItem("_jid", e.data.findLoggedInUser.accessToken);
+                      history.push('/dashboard');
+                    }).catch(() => {
+                      swal("Error Login", "Try Again", "error").then(() => {
+                        window.location.reload();
+                      });
+                    })
+
+                  }}
+                >
+                  {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    isSubmitting,
+                    /* and other goodies */
+                  }) => (
+                    <form onSubmit={handleSubmit}>
+                      <CInputGroup className="mb-3">
+                      <CInputGroupPrepend>
+                        <CInputGroupText>
+                          <CIcon name="cil-envelope-closed" />
+                        </CInputGroupText>
+                      </CInputGroupPrepend>
+                        <input
+                          type="email"
+                          name="email"
+                          className="form-control"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.email}
+                          placeholder="email"
+                          autoComplete="username" 
+                        />
+                      </CInputGroup> 
+                      {errors.email && touched.email && errors.email}
+
+                      <CInputGroup className="mb-3">
+                      <CInputGroupPrepend>
+                        <CInputGroupText>
+                          <CIcon name="cil-envelope-closed" />
+                        </CInputGroupText>
+                      </CInputGroupPrepend>
+                        <input
+                          type="email"
+                          name="email"
+                          className="form-control"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.email}
+                          placeholder="email"
+                          autoComplete="username" 
+                        />
+                      </CInputGroup> 
+                      {errors.email && touched.email && errors.email}
+
+
+                      <CInputGroup className="mb-3">
+                      <CInputGroupPrepend>
+                        <CInputGroupText>
+                          <CIcon name="cil-envelope-closed" />
+                        </CInputGroupText>
+                      </CInputGroupPrepend>
+                        <input
+                          type="email"
+                          name="email"
+                          className="form-control"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.email}
+                          placeholder="email"
+                          autoComplete="username" 
+                        />
+                      </CInputGroup> 
+                      {errors.email && touched.email && errors.email}
+
+                      <CInputGroup className="mb-4">
+                        <CInputGroupPrepend>
+                          <CInputGroupText>
+                            <CIcon name="cil-lock-locked" />
+                          </CInputGroupText>
+                        </CInputGroupPrepend>
+                        <input
+                          type="password"
+                          name="password"
+                          className="form-control"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.password}
+                          placeholder="password"
+                        />
+                      </CInputGroup>                   
+                      {errors.password && touched.password && errors.password}
+
+                      <CInputGroup className="mb-3">
+                      <CInputGroupPrepend>
+                        <CInputGroupText>
+                          <CIcon name="cil-envelope-closed" />
+                        </CInputGroupText>
+                      </CInputGroupPrepend>
+                        <SecurityQuestions />
+                      </CInputGroup> 
+                      {errors.email && touched.email && errors.email}
+
+                      <CInputGroup className="mb-3">
+                      <CInputGroupPrepend>
+                        <CInputGroupText>
+                          <CIcon name="cil-envelope-closed" />
+                        </CInputGroupText>
+                      </CInputGroupPrepend>
+                        <input
+                          type="email"
+                          name="email"
+                          className="form-control"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.email}
+                          placeholder="email"
+                          autoComplete="username" 
+                        />
+                      </CInputGroup> 
+                      {errors.email && touched.email && errors.email}
+                      <br />
+                      <CButton
+                    type="submit"
+                    disabled={isSubmitting}
+                   color="success" block>Create Account</CButton>
+                    </form>
+                  )}
+                </Formik>
               </CCardBody>
               <CCardFooter className="p-4">
                 <CRow>
                   <CCol xs="12" sm="6">
-                    <CButton className="btn-facebook mb-1" block><span>facebook</span></CButton>
+                    <CButton onClick={goToDashboard} className="btn-facebook mb-1" block><span>Dashboard</span></CButton>
                   </CCol>
                   <CCol xs="12" sm="6">
-                    <CButton className="btn-twitter mb-1" block><span>twitter</span></CButton>
+                    <CButton onClick={goToLogin} className="btn-twitter mb-1" block><span>Login</span></CButton>
                   </CCol>
                 </CRow>
               </CCardFooter>

@@ -10,6 +10,10 @@ import { ProtectedResolverHealth } from './resolvers/ProtectedResolvers/Protecte
 import "dotenv/config";
 var morgan = require('morgan');
 import cookieParser = require("cookie-parser");
+const helmet = require('helmet');
+var xss = require('xss-clean');
+const rateLimit = require("express-rate-limit");
+var hpp = require('hpp');
 import { verify } from 'jsonwebtoken';
 const cors = require('cors');
 import { User_Registration } from './entity/User_Registration';
@@ -33,13 +37,22 @@ import { graphql_REQ_Query_LifeCycle_Logger_dev } from "./utils/graphql_REQ_Quer
     const app = express();
     app.use(morgan('combined'));
 
+    // Security Headers
+    app.use(helmet());
+    app.use(xss());
+    const limiter = rateLimit({
+        windowMs: 10 * 60 * 1000, // 15 minutes
+        max: 100 // limit each IP to 100 requests per windowMs
+    });
+    app.use(limiter);
+    app.use(hpp());
+
     var corsOptions = {
         origin: process.env.CORS_ORIGIN,
         optionsSuccessStatus: 200 
     };
 
     // Handle refresh token
-    
     app.use(cookieParser());
     app.post('/getNewAccessToken', async (req, res) => {
 

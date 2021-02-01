@@ -38,18 +38,10 @@ export class SecurityQuestionsResolver {
       }
 
       @Query(() => [Security_Questions])
-      @UseMiddleware(IsAuthMiddleware)
-      async a_getSecurityQuestions(
+      async getSecurityQuestions(
             @Ctx() { payload }: IctxType 
       ) {
-            let userRole = payload!.userRole;
-                        
-            if(userRole !== 'Admin'){
-                  throw new Error('Admin Rights needed to perform this action');
-            }
-
             let qusList = Security_Questions.find();
-
             return qusList;
       }     
 }
