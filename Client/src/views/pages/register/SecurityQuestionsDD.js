@@ -50,7 +50,7 @@ export default function SecurityQuestions() {
           <option value={20}>Twenty</option>
           <option value={30}>Thirty</option>
           {
-            console.log(data)
+             console.log(data)
           }
         </Select>
       
