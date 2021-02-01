@@ -38,14 +38,14 @@ import { graphql_REQ_Query_LifeCycle_Logger_dev } from "./utils/graphql_REQ_Quer
     app.use(morgan('combined'));
 
     // Security Headers
-    app.use(helmet());
-    app.use(xss());
-    const limiter = rateLimit({
-        windowMs: 10 * 60 * 1000, // 15 minutes
-        max: 100 // limit each IP to 100 requests per windowMs
-    });
-    app.use(limiter);
-    app.use(hpp());
+    //app.use(helmet());
+    // app.use(xss());
+    // const limiter = rateLimit({
+    //     windowMs: 10 * 60 * 1000, // 15 minutes
+    //     max: 100 // limit each IP to 100 requests per windowMs
+    // });
+    // app.use(limiter);
+    // app.use(hpp());
 
     var corsOptions = {
         origin: process.env.CORS_ORIGIN,

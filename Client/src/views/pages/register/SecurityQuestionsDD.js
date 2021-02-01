@@ -9,7 +9,7 @@ import { useQuery } from '@apollo/client';
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(0),
-    width: 490,
+    maxWidth: 400,
   },
   selectEmpty: {
     marginTop: theme.spacing(0),
@@ -35,12 +35,11 @@ export default function SecurityQuestions() {
 
   return (
     <div>
-      
-        <InputLabel htmlFor="age-native-simple">Age</InputLabel>
         <Select
           native
           value={state.age}
           onChange={handleChange}
+          style={{width: 490}}
           inputProps={{
             name: 'age',
             id: 'age-native-simple',
@@ -50,6 +49,9 @@ export default function SecurityQuestions() {
           <option value={10}>Ten</option>
           <option value={20}>Twenty</option>
           <option value={30}>Thirty</option>
+          {
+             console.log(data)
+          }
         </Select>
       
     </div>
