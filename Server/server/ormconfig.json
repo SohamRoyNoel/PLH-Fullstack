@@ -1,9 +1,8 @@
 {
    "type": "mssql",
-   "host": "localhost",
-   "port":1434,
-   "username": "sa",
-   "password": "I_AM_mr_React",
+   "host": "gicpirates.database.windows.net",
+   "username": "GICPiratesAdmin",
+   "password": "EzioAuditore#2",
    "database": "plhdashboardb_Dev_Mock",
    "synchronize": true,
    "autoSchemaSync": true,
