@@ -60,6 +60,9 @@ const Widgets = React.lazy(() => import("./views/widgets/Widgets"));
 const Users = React.lazy(() => import("./views/users/Users"));
 const User = React.lazy(() => import("./views/users/User"));
 const AppManagement = React.lazy(() => import("./views/users/AppManagement"));
+const AppRelationManagement = React.lazy(() =>
+  import("./views/users/AppRelationManagement")
+);
 
 const routes = [
   { path: "/", exact: true, name: "Home" },
@@ -124,6 +127,12 @@ const routes = [
     exact: true,
     name: "App Management",
     component: AppManagement,
+  },
+  {
+    path: "/app-relation",
+    exact: true,
+    name: "App Relation",
+    component: AppRelationManagement,
   },
 ];
 

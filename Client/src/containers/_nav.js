@@ -51,7 +51,7 @@ const _adminNav = [
   {
     _tag: "CSidebarNavItem",
     name: "App Relation Management",
-    to: "/theme/typography",
+    to: "/app-relation",
     icon: (
       <FontAwesomeIcon icon={faHeart} size="2x" style={{ paddingRight: "5" }} />
     ),
