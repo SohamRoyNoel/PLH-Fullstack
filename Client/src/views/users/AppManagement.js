@@ -18,6 +18,8 @@ import {
   MuiThemeProvider,
 } from "@material-ui/core/styles";
 import MUIDataTable from "mui-datatables";
+import GetAppListWhereUserHasPendingRequest from "../../graphql/getUserHasPendingRequest.graphql";
+import { useQuery } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,15 +54,18 @@ const AppManagement = () => {
   const classes = useStyles();
   const [value, setValue] = useState("Access Required");
   const [dataList, setdataList] = useState(undefined);
-
+  const { loading, error, data } = useQuery(
+    GetAppListWhereUserHasPendingRequest
+  );
+  console.log("data: ", error);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   ///MUI Table----------------------
-  const columns_Required = [
+  const columns_Pending = [
     {
-      name: "appId",
+      name: "Request_ID",
       label: "Id",
       options: {
         filter: true,
@@ -75,7 +80,7 @@ const AppManagement = () => {
       },
     },
     {
-      name: "appName",
+      name: "Request_App_Name",
       label: "Application Names",
       options: {
         filter: true,
@@ -232,7 +237,7 @@ const AppManagement = () => {
             <MUIDataTable
               title={"Access required from admin"}
               data={dataList}
-              columns={columns_Required}
+              columns={undefined}
               options={dataStateOptions()}
             />
           </MuiThemeProvider>
@@ -242,7 +247,7 @@ const AppManagement = () => {
             <MUIDataTable
               title={"Access pending from admin"}
               data={dataList}
-              columns={columns_Required}
+              columns={columns_Pending}
               options={dataStateOptions()}
             />
           </MuiThemeProvider>
@@ -252,7 +257,7 @@ const AppManagement = () => {
             <MUIDataTable
               title={"Access approved or rejected"}
               data={dataList}
-              columns={columns_Required}
+              columns={undefined}
               options={dataStateOptions()}
             />
           </MuiThemeProvider>
