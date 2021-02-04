@@ -18,7 +18,7 @@ import {
   MuiThemeProvider,
 } from "@material-ui/core/styles";
 import MUIDataTable from "mui-datatables";
-import GetAppListWhereUserHasPendingRequest from "../../graphql/getUserHasPendingRequest.graphql";
+import GET_APP_LIST_WHERE_USER_HAS_PENDING_REQUEST from "../../graphql/getUserHasPendingRequest.graphql";
 import { useQuery } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({
@@ -50,12 +50,12 @@ const getMuiTheme = () =>
     },
   });
 
-const AppManagement = () => {
+export default function AppManagement() {
   const classes = useStyles();
   const [value, setValue] = useState("Access Required");
   const [dataList, setdataList] = useState(undefined);
   const { loading, error, data } = useQuery(
-    GetAppListWhereUserHasPendingRequest
+    GET_APP_LIST_WHERE_USER_HAS_PENDING_REQUEST, { errorPolicy: 'all' }
   );
   console.log("data: ", error);
   const handleChange = (event, newValue) => {
@@ -282,5 +282,3 @@ function TabPanel(props) {
     </div>
   );
 }
-
-export default AppManagement;
