@@ -57,7 +57,7 @@ export default function AppManagement() {
   const { loading, error, data } = useQuery(
     GET_APP_LIST_WHERE_USER_HAS_PENDING_REQUEST, { errorPolicy: 'all' }
   );
-  console.log("data: ", error);
+  console.log("data: ", data !== undefined ? data.getAppListWhereUserHasPendingRequest[0] : 'Loading');
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
