@@ -63,6 +63,9 @@ const AppManagement = React.lazy(() => import("./views/users/AppManagement"));
 const AppRelationManagement = React.lazy(() =>
   import("./views/users/AppRelationManagement")
 );
+const TestCaseManagement = React.lazy(() =>
+  import("./views/users/TestCaseManagement")
+);
 
 const routes = [
   { path: "/", exact: true, name: "Home" },
@@ -133,6 +136,12 @@ const routes = [
     exact: true,
     name: "App Relation",
     component: AppRelationManagement,
+  },
+  {
+    path: "/test-management",
+    exact: true,
+    name: "Test Management",
+    component: TestCaseManagement,
   },
 ];
 

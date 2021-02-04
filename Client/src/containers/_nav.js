@@ -43,7 +43,7 @@ const _adminNav = [
   {
     _tag: "CSidebarNavItem",
     name: "Test Cases Management",
-    to: "/theme/typography",
+    to: "/test-management",
     icon: (
       <FontAwesomeIcon icon={faVial} size="2x" style={{ paddingRight: "6" }} />
     ),
