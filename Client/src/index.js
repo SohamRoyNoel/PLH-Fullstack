@@ -22,7 +22,6 @@ import store from "./store";
 
 const httpLink = new HttpLink({ uri: "http://localhost:4000/graphql" });
 React.icons = icons;
-
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
   operation.setContext({
