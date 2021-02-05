@@ -18,7 +18,7 @@ import {
   MuiThemeProvider,
 } from "@material-ui/core/styles";
 import MUIDataTable from "mui-datatables";
-import GetAppListWhereUserHasPendingRequest from "../../graphql/getUserHasPendingRequest.graphql";
+import Pending_Query from "../../graphql/getUserHasPendingRequest.graphql";
 import { useQuery } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({
@@ -54,10 +54,15 @@ const AppManagement = () => {
   const classes = useStyles();
   const [value, setValue] = useState("Access Required");
   const [dataList, setdataList] = useState(undefined);
-  const { loading, error, data } = useQuery(
-    GetAppListWhereUserHasPendingRequest
-  );
-  console.log("data: ", error);
+  const data = useQuery(Pending_Query);
+
+  useEffect(() => {
+    data.data
+      ? setdataList(data.data.getAppListWhereUserHasPendingRequest)
+      : setdataList(undefined);
+  });
+
+  console.log("data: ", dataList);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -70,7 +75,7 @@ const AppManagement = () => {
       options: {
         filter: true,
         sort: true,
-        display: false,
+        display: true,
         setCellHeaderProps: (value) => ({
           style: {
             textAlign: "center",
@@ -92,9 +97,9 @@ const AppManagement = () => {
           },
         }),
         responsive: "simple",
-        customBodyRender: (val, tableMeta) => {
-          return tableMeta.rowData[1] + "-" + tableMeta.rowData[0];
-        },
+        // customBodyRender: (val, tableMeta) => {
+        //   return tableMeta.rowData[1] + "-" + tableMeta.rowData[0];
+        // },
       },
     },
   ];

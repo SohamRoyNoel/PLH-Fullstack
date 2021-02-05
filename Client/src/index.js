@@ -19,13 +19,16 @@ import { icons } from "./assets/icons";
 
 import { Provider } from "react-redux";
 import store from "./store";
+
 const httpLink = new HttpLink({ uri: "http://localhost:4000/graphql" });
 React.icons = icons;
+
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
   operation.setContext({
     headers: {
-      authorization: localStorage.getItem("_jid") || null,
+      authorization: `Bearer ${localStorage.getItem("_jid")}` || null,
+      // authorization: `${localStorage.getItem("_jid")}` || null,
     },
   });
   return forward(operation);
